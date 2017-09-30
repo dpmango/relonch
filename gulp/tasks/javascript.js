@@ -9,8 +9,6 @@ var config      = require('../config');
 gulp.task('javascript:vendor', function() {
   return gulp.src([
       path.resolve('bower_components', 'jquery/dist/jquery.min.js'),
-      path.resolve('bower_components', 'slick-carousel/slick/slick.min.js'),
-      path.resolve('bower_components', 'magnific-popup/dist/jquery.magnific-popup.min.js'),
       path.resolve('bower_components', 'jquery-validation/dist/jquery.validate.min.js'),
       path.resolve('bower_components', 'jquery-mask-plugin/dist/jquery.mask.min.js'),
       config.src.js + '/vendor/**/*.js'
