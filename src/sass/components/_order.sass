@@ -22,6 +22,7 @@
     width: 50%
     padding: 3px
   &__input
+    position: relative
     background: white
     border-radius: 3px
     min-height: 64px
@@ -36,10 +37,15 @@
         span
           font-size: 14px
     &-placeholder
+      position: absolute
+      top: 50%
+      left: 50%
+      transform: translate3d(-50%,-50%,0)
       display: flex
       align-items: center
       color: #A2A5A9
       text-transform: uppercase
+      transition: all $transitionSpeed $ease
       .ico
         font-size: 16px
         margin-right: 7px
@@ -51,8 +57,42 @@
           margin-right: 5px
       span
         font-size: 18px
+    &-data
+      position: absolute
+      top: 50%
+      left: 50%
+      width: 100%
+      transform: translate3d(-50%,-50%,0)
+      opacity: 0
+      pointer-events: none
+      text-align: center
+      overflow: hidden
+      transition: all $transitionSpeed $ease
+      span
+        display: inline-block
+        width: 100%
+        &:first-child
+          display: block
+          font-size: 18px
+          font-weight: 600
+          color: $fontColor
+        &:last-child
+          +text-overflow
+          padding-left: 10px
+          padding-right: 10px
+          font-size: 12px
+          color: $colorMute
+    &.is-filled
+      .order__input-placeholder
+        opacity: 0
+        pointer-events: none
+      .order__input-data
+        opacity: 1
+        pointer-events: all
     &:hover
-      opacity: .8
+      transform: translate3d(0,-3px,0) scale(1.03)
+    // &--small:hover
+    //   transform: translate3d(0,5px,0)
   &__cta
     margin-top: 3px
 

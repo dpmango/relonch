@@ -67,6 +67,12 @@ $(document).ready(function(){
 
   })
 
+  var collectData = {
+    orderFrom: "",
+    orderTo: "",
+    orderDate: "",
+    orderWho: ""
+  }
 
   // autocompleate
   $('[js-search-autocompleate]').on('keyup', function(e){
@@ -85,9 +91,9 @@ $(document).ready(function(){
         type: 'GET',
         dataType: 'json',
       }).done(function(res) {
+        console.log('got responsive from api', res)
         $('.destination-results__card').remove();
         $.each(res, function(i, val){
-          console.log(val)
           var appendedEl = "<div class='destination-results__card' data-location="+val.value+"><span>"+val.label+"</span><span>"+val.value+"</span> </div>"
           $('.destination-results').append(appendedEl)
         })
@@ -96,7 +102,23 @@ $(document).ready(function(){
     // https://sandbox.amadeus.com/travel-innovation-sandbox/apis/get/airports/autocomplete
     // https://www.programmableweb.com/api/amadeus-airport-autocomplete
     // https://www.air-port-codes.com
-  })
+  });
+
+
+  $('.destination-results').on('click', '.destination-results__card', function(){
+    var locationData = $(this).data('location');
+    var closestAction = $(this).closest('.action');
+    var linkedInput = $('.order__input[data-action='+closestAction.data('action')+']');
+    closestAction.removeClass('is-active');
+
+    linkedInput.addClass('is-filled');
+    linkedInput.find('span:first-child').html( $(this).find('span:nth-child(2)').html() );
+    linkedInput.find('span:last-child').html( $(this).find('span:nth-child(1)').html() );
+
+    // update global state
+    collectData.orderFrom = locationData;
+  });
+
   ////////////
   // UI
   ////////////
