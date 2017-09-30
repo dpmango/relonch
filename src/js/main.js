@@ -66,6 +66,27 @@ $(document).ready(function(){
     })
 
   })
+
+
+  // autocompleate
+  $('[js-search-autocompleate]').on('keydown', function(e){
+    var curVal = $(this).val();
+    // var searchUrl = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input="+curVal+"&types=address&key=AIzaSyARV4GddkVojvH-Xt-wXay2ZTM2hnpVdBs"
+    var iataCodes = {
+      url: "//iatacodes.org/api/v6",
+      endpioint: "autocomplete?query="+curVal+"",
+      key: "0057b314-ac37-41df-ba78-d167ae99f25f"
+    }
+    var searchUrl = iataCodes.url + "/" + iataCodes.endpioint + "?api_key=" + iataCodes.key
+
+    $.ajax({
+      url: searchUrl,
+      type: 'GET',
+      dataType: 'json'
+    }).done(function(res) {
+      console.log(res)
+    })
+  })
   ////////////
   // UI
   ////////////
