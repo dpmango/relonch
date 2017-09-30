@@ -105,10 +105,10 @@ block content
         +icon('ico-close')
       
       .calendar-summary
-        .calendar-summary__start start date
+        .calendar-summary__start(js-paste-start-date) start date
         | - 
-        .calendar-summary__end end date
-        .calendar-summary__days
+        .calendar-summary__end(js-paste-end-date) end date
+        .calendar-summary__days(js-calc-days)
           
       .calendar
         div(js-datepicker)

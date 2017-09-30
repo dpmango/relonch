@@ -142,7 +142,74 @@ $(document).ready(function(){
     minDate: new Date(),
     language: 'en',
     multipleDates: 2,
-    range: true
+    range: true,
+    onSelect: function(formattedDate, date, inst){
+      console.log(date);
+      if ( date[0] ){
+        var startDateStr = date[0].getDate() + " " + formatMonth(date[0].getMonth());
+
+        $('[js-paste-start-date]').html(startDateStr);
+      }
+
+      if ( date[1] ){
+        var endDateStr = date[1].getDate() + " " + formatMonth(date[1].getMonth());;
+
+        $('[js-paste-end-date]').html(endDateStr);
+      }
+
+      if ( date[0] && date[1] ){
+        var timeDiff = Math.abs(date[1].getTime() - date[0].getTime());
+        var calcDaysStr = Math.ceil(timeDiff / (1000 * 3600 * 24)) + " days"; 
+
+        $('[js-calc-days]').html(calcDaysStr);
+      }
+    }
   });
+
+  function formatMonth(date){
+    var formatedStr;
+    console.log(date)
+    switch(date){
+      case 0:
+        formatedStr = "Jan"
+        break;
+      case 1:
+        formatedStr = "Feb"
+        break;
+      case 2:
+        formatedStr = "Mar"
+        break;
+      case 3:
+        formatedStr = "Apr"
+        break;
+      case 4:
+        formatedStr = "May"
+        break;
+      case 5:
+        formatedStr = "Jun"
+        break;
+      case 6:
+        formatedStr = "Jul"
+        break;
+      case 7:
+        formatedStr = "Aug"
+        break;
+      case 8:
+        formatedStr = "Sep"
+        break;
+      case 9:
+        formatedStr = "Oct"
+        break;
+      case 10:
+        formatedStr = "Nov"
+        break;
+      case 11:
+        formatedStr = "Dec"
+        break;
+      default:
+        break;
+    }
+    return formatedStr;
+  }
 
 });
