@@ -1,7 +1,7 @@
-ProjectTitle: Project-name
+ProjectTitle: Relonch
 
 PageList:
-- file: homepage.html
-  ready: 100
-- file: page.html
-  ready: 0
+- file: order.html
+  ready: 20
+- file: download.html
+  ready: 70

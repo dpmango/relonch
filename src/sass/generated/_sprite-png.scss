@@ -1,11 +1,20 @@
 $sprite: (
-	logo: (
+	appStore: (
 		offset-x: 0px,
 		offset-y: 0px,
-		width: 300px,
-		height: 70px,
-		total-width: 300px,
-		total-height: 70px,
+		width: 185px,
+		height: 60px,
+		total-width: 185px,
+		total-height: 86px,
+		image: '../img/sprite.png'
+	),
+	logo: (
+		offset-x: 0px,
+		offset-y: -70px,
+		width: 98px,
+		height: 16px,
+		total-width: 185px,
+		total-height: 86px,
 		image: '../img/sprite.png'
 	),
 );
@@ -64,6 +73,9 @@ $sprite: (
 
 
 
+	.icon-appStore {
+		@include sprite(appStore)
+	}
 	.icon-logo {
 		@include sprite(logo)
 	}

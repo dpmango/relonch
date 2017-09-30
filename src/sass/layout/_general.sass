@@ -16,8 +16,8 @@ ul
 body, html
   background: white
   color: $fontColor
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif
-  font-size: 16px
+  font-family: 'Work Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif
+  font-size: 14px
   min-width: 320px
   max-width: 100%
   margin: 0
@@ -26,10 +26,17 @@ body, html
   -moz-osx-font-smoothing: grayscale
 
 .page
+  min-height: 100vh
   display: flex
   flex-direction: column
   &__content
+    position: relative
     flex: 1 1 auto
+    display: flex
+    flex-direction: column
+    max-width: 800px
+    margin-left: auto
+    margin-right: auto
 
 .container
   max-width: 1200px
@@ -37,3 +44,12 @@ body, html
   margin-right: auto
   padding-left: 20px
   padding-right: 20px
+  &--flex
+    flex: 1 0 auto
+    display: flex
+    flex-direction: column
+
++r($mobile-s)
+  .container
+    padding-left: 15px
+    padding-right: 15px

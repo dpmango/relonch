@@ -3,6 +3,7 @@ button
   -webkit-apperance: none
   border: 0
   box-shadow: none
+  cursor: pointer
   &:focus
     outline: none
 
@@ -16,3 +17,13 @@ button
   &--block
     display: block
     width: 100%
+  &--cta
+    background: linear-gradient(to right, #FFBE00, #FCF925)
+    background-size: 200% 100%
+    background-position: 0% 100%
+    box-shadow: 0px 2px 4px rgba(#FC2525, .2)
+    border-radius: 3px
+    text-transform: uppercase
+    min-height: 44px
+    &:hover
+      background-position: 100% 100%

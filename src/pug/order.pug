@@ -1,0 +1,36 @@
+---
+title: Homepage title
+bodyClass: homepage
+---
+extends shared/_layout
+block header
+  include components/_header2
+block content
+  .order
+    .container.container--flex
+      .order__title Magic сamera <br> for magical trips
+      .order__form
+        .order__row
+          .order__col
+            .order__input
+              .order__input-placeholder
+                +icon('ico-planeFrom')
+                span FROM
+          .order__col
+            .order__input
+              .order__input-placeholder
+                +icon('ico-planeTo')
+                span TO
+        .order__row
+          .order__col
+            .order__input.order__input--small
+              .order__input-placeholder
+                +icon('ico-date')
+                span DATE
+          .order__col
+            .order__input.order__input--small
+              .order__input-placeholder
+                +icon('ico-who')
+                span WHO
+        .order__cta
+          button(type='submit').btn.btn--cta.btn--block Book a camera
