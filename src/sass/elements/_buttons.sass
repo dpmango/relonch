@@ -18,7 +18,7 @@ button
     display: block
     width: 100%
   &--cta
-    background: linear-gradient(to right, #FFBE00, #FCF925)
+    background: linear-gradient(to right, #FFBE00, #FCF925 50%, #FCF925 51%, #FFBE00)
     background-size: 200% 100%
     background-position: 0% 100%
     box-shadow: 0px 2px 4px rgba(#FC2525, .2)
@@ -27,4 +27,18 @@ button
     min-height: 44px
     color: #17191C
     &:hover
-      background-position: 100% 100%
+      background-position: 50% 100%
+  &--apply
+    background: linear-gradient(45deg, #F9A44C, #E9724B 50%, #E9724B 51%, #F9A44C)
+    background-size: 200% 100%
+    background-position: 0% 100%
+    box-shadow: 0px 2px 4px rgba(#FC2525, .2)
+    border-radius: 3px
+    font-size: 14px
+    font-weight: 700
+    text-transform: uppercase
+    min-height: 44px
+    color: white
+    &:hover
+      background-position: 50% 100%
+    color: white

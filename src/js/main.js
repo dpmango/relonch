@@ -73,52 +73,28 @@ $(document).ready(function(){
     var curVal = $(this).val();
     // var searchUrl = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input="+curVal+"&types=address&key=AIzaSyARV4GddkVojvH-Xt-wXay2ZTM2hnpVdBs"
     var iataCodes = {
-      url: "//iatacodes.org/api/v6",
+      url: "http://iatacodes.org/api/v6",
       endpioint: "autocomplete?query="+curVal+"",
       key: "0057b314-ac37-41df-ba78-d167ae99f25f"
     }
     var searchUrl = iataCodes.url + "/" + iataCodes.endpioint + "?api_key=" + iataCodes.key
-
-    $.ajax({
-      url: searchUrl,
-      type: 'GET',
-      dataType: 'json'
-    }).done(function(res) {
-      console.log(res)
-    })
+    console.log(searchUrl)
+    // $.ajax({
+    //   url: searchUrl,
+    //   type: 'GET',
+    //   headers: {"Access-Control-Allow-Origin": "*"},
+    //   dataType: 'json',
+    //   sucsess: function(res) {
+    //     console.log(res)
+    //   }
+    // });
+    // https://sandbox.amadeus.com/travel-innovation-sandbox/apis/get/airports/autocomplete
+    // https://www.programmableweb.com/api/amadeus-airport-autocomplete
+    // https://www.air-port-codes.com
   })
   ////////////
   // UI
   ////////////
-
-  // custom selects
-  $('.ui-select__visible').on('click', function(e){
-    var that = this
-    // hide parents
-    $(this).parent().parent().parent().find('.ui-select__visible').each(function(i,val){
-      if ( !$(val).is($(that)) ){
-        $(val).parent().removeClass('active')
-      }
-    });
-
-    $(this).parent().toggleClass('active');
-  });
-
-  $('.ui-select__dropdown span').on('click', function(){
-    // parse value and toggle active
-    var value = $(this).data('val');
-    if (value){
-      $(this).siblings().removeClass('active');
-      $(this).addClass('active');
-
-      // set visible
-      $(this).closest('.ui-select').removeClass('active');
-      $(this).closest('.ui-select').find('input').val(value);
-
-      $(this).closest('.ui-select').find('.ui-select__visible span').text(value);
-    }
-
-  });
 
   // handle outside click
   $(document).click(function (e) {
@@ -132,28 +108,14 @@ $(document).ready(function(){
     });
   });
 
-  // numeric input
-  $('.ui-number span').on('click', function(e){
-    var element = $(this).parent().find('input');
-    var currentValue = parseInt($(this).parent().find('input').val()) || 0;
 
-    if( $(this).data('action') == 'minus' ){
-      if(currentValue <= 1){
-        return false;
-      }else{
-        element.val( currentValue - 1 );
-      }
-    } else if( $(this).data('action') == 'plus' ){
-      if(currentValue >= 99){
-        return false;
-      } else{
-        element.val( currentValue + 1 );
-      }
-    }
+  // Datepicker
+  $('[js-datepicker]').datepicker({
+    inline: true,
+    minDate: new Date(),
+    language: 'en',
+    multipleDates: 2,
+    range: true
   });
-
-  // Masked input
-  $(".js-dateMask").mask("99.99.99",{placeholder:"ДД.ММ.ГГ"});
-  $("input[type='tel']").mask("+7 (000) 000-0000", {placeholder: "+7 (___) ___-____"});
 
 });

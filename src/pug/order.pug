@@ -90,3 +90,26 @@ block content
         .destination-results__card(data-location='den')
           span Denver
           span DEN  
+          
+  // ORDER TO
+  .action(data-action="order-date")
+    .action__wrapper
+      .action__close(js-close)
+        +icon('ico-close')
+      
+      .calendar-summary
+        .calendar-summary__start start date
+        | - 
+        .calendar-summary__end end date
+        .calendar-summary__days
+          
+      .calendar
+        div(js-datepicker)
+      
+      .calendar-cta
+        button(type='submit').btn.btn--apply.btn--block Apply
+
+  // WHO
+  .action(data-action="order-who")
+    
+    
