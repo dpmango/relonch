@@ -33,14 +33,6 @@ $(document).ready(function(){
 		e.preventDefault();
 	});
 
-	// Smoth scroll
-	$('a[href^="#section"]').click( function() {
-        var el = $(this).attr('href');
-        $('body, html').animate({
-            scrollTop: $(el).offset().top}, 1000);
-        return false;
-	});
-
 
   // HAMBURGER TOGGLER
   $('.hamburger').on('click', function(){
@@ -48,6 +40,32 @@ $(document).ready(function(){
     $('.mobile-navi').toggleClass('is-active');
   });
 
+  //////////
+  // ORDER
+  //////////
+
+  // opens dialog window
+  $('[js-action]').each(function(i,val){
+    var self = $(val);
+
+    var action = self.data('action');
+    var targetBlock = $('.action[data-action='+action+']');
+
+    if ( action && targetBlock ){
+      self.on('click', function(e){
+        targetBlock.addClass('is-active');
+      })
+    }
+  })
+
+  $('[js-close]').each(function(i,val){
+    var self = $(val);
+
+    self.on('click', function(e){
+      self.closest('.action').removeClass('is-active');
+    })
+
+  })
   ////////////
   // UI
   ////////////

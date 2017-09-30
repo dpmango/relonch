@@ -57,22 +57,71 @@
     margin-top: 3px
 
 
+// actions
 .action
   position: absolute 0
+  z-index: 20
   background: white
+  opacity: 0
+  transform: translate3d(0,-100%,0)
+  pointer-events: none
+  transition: all $transitionSpeed $ease
   &__wrapper
     position: relative
     display: flex
     flex-direction: column
   &__close
+    display: inline-block
     position: absolute
-    top: 15px
-    left: 15px
+    padding: 10px
+    top: 10px
+    left: 5px
+    z-index: 2
+    cursor: pointer
+    color: #17191C
+    transition: all $transitionSpeed $ease
+    &:hover
+      color: $colorMute
+
+  &.is-active
+    opacity: 1
+    transform: translate3d(0,0,0)
+    pointer-events: all
 
 .destination-search
   margin-top: 45px
   input
+    display: block
+    width: 100%
     border: 0
     border-bottom: 1px solid #E6E6E6
     font-size: 30px
     padding: 15px
+    text-transform: uppercase
+    &::placeholder
+      color: $colorMute
+
+.destination-results
+  padding: 30px 15px 0 15px
+  overflow-y: auto
+  &__head
+    font-size: 12px
+    margin-bottom: 8px
+    font-weight: 600
+    text-transform: uppercase
+    color: $colorMute
+  &__card
+    display: flex
+    align-items: center
+    padding: 12px 0
+    font-size: 18px
+    color: #424850
+    cursor: pointer
+    span
+      &:first-child
+        +text-overflow
+
+      &:last-child
+        flex: 0 0 auto
+        margin-left: auto
+        color: $colorMute

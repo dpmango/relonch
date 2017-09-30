@@ -12,23 +12,23 @@ block content
       .order__form
         .order__row
           .order__col
-            .order__input
+            .order__input(js-action data-action="order-from")
               .order__input-placeholder
                 +icon('ico-planeFrom')
                 span FROM
           .order__col
-            .order__input
+            .order__input(js-action data-action="order-to")
               .order__input-placeholder
                 +icon('ico-planeTo')
                 span TO
         .order__row
           .order__col
-            .order__input.order__input--small
+            .order__input.order__input--small(js-action data-action="order-date")
               .order__input-placeholder
                 +icon('ico-date')
                 span DATE
           .order__col
-            .order__input.order__input--small
+            .order__input.order__input--small(js-action data-action="order-who")
               .order__input-placeholder
                 +icon('ico-who')
                 span WHO
@@ -36,12 +36,29 @@ block content
           button(type='submit').btn.btn--cta.btn--block Book a camera
   
   // ACTIONS :: START
-  .action
+  .action(data-action="order-from")
     .action__wrapper
-      .action__close
+      .action__close(js-close)
         +icon('ico-close')
       .destination-search
         input(placeholder="From where?")
-      
-      
-    
+      .destination-results
+        .destination-results__head Popular location
+        .destination-results__card(data-location='sfo')
+          span San Francisco
+          span SFO
+        .destination-results__card(data-location='lax')
+          span Los Angeles
+          span LAX  
+        .destination-results__card(data-location='jfk')
+          span New-York
+          span JFK  
+        .destination-results__card(data-location='atl')
+          span Atlanta
+          span ATL  
+        .destination-results__card(data-location='ord')
+          span Chicago
+          span ORD  
+        .destination-results__card(data-location='den')
+          span Denver
+          span DEN  
