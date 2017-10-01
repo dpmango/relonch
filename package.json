@@ -20,6 +20,7 @@
     "autoprefixer": "^7.1.2",
     "browser-sync": "^2.18.12",
     "cheerio": "^1.0.0-rc.2",
+    "clipboard": "^1.7.1",
     "cssnano": "^3.10.0",
     "del": "^3.0.0",
     "eslint-config-airbnb": "^15.0.2",

@@ -138,4 +138,23 @@ block content
           +icon('ico-checkmark')
        
     
-    
+  
+  // GET ID
+  .order-name
+    .order-name__wrapper
+      .order-name__title Enter your Instagram nickname
+      .order-name__subtitle that we can use to contact you and clarify details
+      form(action="" js-validate-order-name).order-name__form
+        input(type="text" placeholder="Your instagram nickname")
+        button(type="submit").btn.btn--insta.btn--block finish Booking
+        
+  // GET ID
+  .order-number
+    .order-number__wrapper
+      .order-number__title Your order number is
+      .order-number__number(js-paste-booking-number) 2345
+      .order-number__description Make sure to follow Relonch in Instagram. Copy your order number and send us a message in Instagram Direct.
+      .order-number__cta
+        button(js-copy-clipboard).btn.btn--cta Copy To Clipboard
+
+      

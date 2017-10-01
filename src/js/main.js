@@ -180,15 +180,61 @@ $(document).ready(function(){
     }
   })
 
-  $('[js-process-booking]').on('click', function(){
+  // form submit handler
+  $('[js-process-booking]').on('click', function(e){
     // do some valdation
     if ( collectData.orderFrom && collectData.orderTo && collectData.orderDate && collectData.orderWho ){
       alert("Send to API:" + JSON.stringify(collectData) );
+      $('.order-name').addClass('is-active');
 
     } else {
       alert('Whoops.. you must fill in all data')
     }
+
+    e.preventDefault();
   });
+
+
+  // ORDER NAME FORM
+  $('[js-validate-order-name]').on('submit', function(e){
+    var input = $(this).find('input').val();
+
+    if ( input && input.length > 5 ){
+      // validate with instagramm api ?
+
+      // if all good -- show form and booking number
+      $('.order-number').addClass('is-active');
+
+      // should this parsed from API?
+      var orderNumber = Math.floor(1000 + Math.random() * 9000);
+      $('[js-paste-booking-number]').text(orderNumber);
+      $('[js-copy-clipboard]').attr('data-clipboard-text', orderNumber.toString());
+
+    } else {
+      alert('please enter your nickname');
+    }
+
+    e.preventDefault();
+  });
+
+  // COPY OT CLIPBOARD
+  var clipboard = new Clipboard('[js-copy-clipboard]');
+
+  clipboard.on('success', function(e) {
+    alert('copied ' + e.text + '. Redirect somewhere else?');
+
+    // console.info('Action:', e.action);
+    // console.info('Text:', e.text);
+    // console.info('Trigger:', e.trigger);
+    // e.clearSelection();
+  });
+
+
+
+
+  ////////////////////
+  // UTILITIES
+  ////////////////////
 
   function formatMonth(date){
     var formatedStr;

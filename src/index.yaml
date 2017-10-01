@@ -2,6 +2,6 @@ ProjectTitle: Relonch
 
 PageList:
 - file: order.html
-  ready: 60
+  ready: 80
 - file: download.html
   ready: 70

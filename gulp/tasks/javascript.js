@@ -11,6 +11,7 @@ gulp.task('javascript:vendor', function() {
       path.resolve('bower_components', 'jquery/dist/jquery.min.js'),
       path.resolve('bower_components', 'air-datepicker/dist/js/datepicker.min.js'),
       path.resolve('bower_components', 'air-datepicker/dist/js/i18n/datepicker.en.js'),
+      path.resolve('bower_components', 'clipboard/dist/clipboard.min.js'),
       config.src.js + '/vendor/**/*.js'
      ])
     .pipe(plumber({ errorHandler: config.errorHandler }))

@@ -248,3 +248,99 @@
 .is-active
   .selector
     transform: translate3d(0,0,0)
+
+
+// SCREENS WHICH COMES AFTER MAIN FORM
+.order-name
+  display: flex
+  flex-direction: column
+  position: fixed 0
+  background: #182230
+  z-index: 50
+  transition: all $transitionSpeed $ease
+  transform: translate3d(0,100%,0)
+  opacity: 0
+  pointer-events: none
+  &.is-active
+    opacity: 1
+    transform: translate3d(0,0,0)
+    pointer-events: all
+  &__wrapper
+    flex: 1 0 auto
+    position: relative
+    display: flex
+    flex-direction: column
+    text-align: center
+    padding-left: 20px
+    padding-right: 20px
+    color: white
+  &__title
+    margin-top: auto
+    font-size: 26px
+    line-height: 1.2
+  &__subtitle
+    margin-top: 20px
+    font-size: 15px
+    line-height: 1.2
+  &__form
+    margin-top: 20px
+    margin-bottom: auto
+    width: 100%
+    input
+      display: block
+      width: 100%
+      border: 2px solid transparent
+      border-radius: 3px
+      font-size: 14px
+      color: $fontColor
+      padding: 12px 15px
+      transition: all $transitionSpeed $ease
+      &::placeholder
+        color: $colorMute
+      &:focus
+        border-color: #F7BA00
+    button
+      margin-top: 6px
+
+
+.order-number
+  display: flex
+  flex-direction: column
+  position: fixed 0
+  background: #182230
+  z-index: 60
+  transition: all $transitionSpeed $ease
+  transform: translate3d(0,100%,0)
+  opacity: 0
+  pointer-events: none
+  &.is-active
+    opacity: 1
+    transform: translate3d(0,0,0)
+    pointer-events: all
+  &__wrapper
+    flex: 1 0 auto
+    position: relative
+    display: flex
+    flex-direction: column
+    text-align: center
+    padding-left: 20px
+    padding-right: 20px
+    color: white
+  &__title
+    margin-top: auto
+    font-size: 14px
+    font-weight: 600
+    text-transform: uppercase
+  &__number
+    font-size: 40px
+    font-weight: 600
+    margin-top: 10px
+    line-height: 1
+  &__description
+    margin-top: 20px
+    margin-bottom: 15px
+    font-size: 15px
+    line-height: 1.2
+  &__cta
+    text-align: center
+    margin-bottom: auto
