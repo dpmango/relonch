@@ -34,11 +34,18 @@ block content
               .order__input-placeholder
                 +icon('ico-date')
                 span DATE
+              .order__input-data(js-paste-date-summary)
+                span
+                | -
+                span
+                
           .order__col
             .order__input.order__input--small(js-action data-action="order-who")
               .order__input-placeholder
                 +icon('ico-who')
                 span WHO
+              .order__input-data
+                
         .order__cta
           button(type='submit').btn.btn--cta.btn--block Book a camera
   
@@ -114,7 +121,7 @@ block content
         div(js-datepicker)
       
       .calendar-cta
-        button(type='submit').btn.btn--apply.btn--block Apply
+        button(type='submit' js-apply-date).btn.btn--apply.btn--block Apply
 
   // WHO
   .action(data-action="order-who")

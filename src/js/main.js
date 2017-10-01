@@ -104,7 +104,7 @@ $(document).ready(function(){
     // https://www.air-port-codes.com
   });
 
-
+  // create placeholder and close current dialog
   $('.destination-results').on('click', '.destination-results__card', function(){
     var locationData = $(this).data('location');
     var closestAction = $(this).closest('.action');
@@ -116,7 +116,11 @@ $(document).ready(function(){
     linkedInput.find('span:last-child').html( $(this).find('span:nth-child(1)').html() );
 
     // update global state
-    collectData.orderFrom = locationData;
+    if ( closestAction.data('action') == "order-from" ){
+      collectData.orderFrom = locationData;
+    } else if (closestAction.data('action') == "order-to" ){
+      collectData.orderTo = locationData;
+    }
   });
 
   ////////////
@@ -144,27 +148,43 @@ $(document).ready(function(){
     multipleDates: 2,
     range: true,
     onSelect: function(formattedDate, date, inst){
-      console.log(date);
       if ( date[0] ){
         var startDateStr = date[0].getDate() + " " + formatMonth(date[0].getMonth());
 
-        $('[js-paste-start-date]').html(startDateStr);
+        $('[js-paste-start-date]').html(startDateStr).addClass('is-ready');
       }
 
       if ( date[1] ){
         var endDateStr = date[1].getDate() + " " + formatMonth(date[1].getMonth());;
 
-        $('[js-paste-end-date]').html(endDateStr);
+        $('[js-paste-end-date]').html(endDateStr).addClass('is-ready');
       }
 
       if ( date[0] && date[1] ){
         var timeDiff = Math.abs(date[1].getTime() - date[0].getTime());
-        var calcDaysStr = Math.ceil(timeDiff / (1000 * 3600 * 24)) + " days"; 
+        var calcDaysStr = Math.ceil(timeDiff / (1000 * 3600 * 24)) + " days";
 
         $('[js-calc-days]').html(calcDaysStr);
       }
     }
   });
+
+  // set date to placeholder and close dialog
+  $('[js-apply-date]').on('click', function(){
+    var startDate = $('[js-paste-start-date].is-ready').html();
+    var endDate = $('[js-paste-end-date].is-ready').html();
+
+    console.log(startDate)
+
+    if ( startDate ){ $('[js-paste-date-summary] span:first-child').html(startDate) }
+
+    if ( endDate ){ $('[js-paste-date-summary] span:last-child').html(endDate) }
+
+    if ( startDate || endDate ){
+      $('[js-paste-date-summary]').closest('[js-action]').addClass('is-filled');
+      $(this).closest('.action').removeClass('is-active');
+    }
+  })
 
   function formatMonth(date){
     var formatedStr;
