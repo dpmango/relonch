@@ -45,9 +45,10 @@ block content
                 +icon('ico-who')
                 span WHO
               .order__input-data
+                span 
                 
         .order__cta
-          button(type='submit').btn.btn--cta.btn--block Book a camera
+          button(type='submit' js-process-booking).btn.btn--cta.btn--block Book a camera
   
   // ACTIONS :: START
   .action(data-action="order-from")
@@ -124,6 +125,17 @@ block content
         button(type='submit' js-apply-date).btn.btn--apply.btn--block Apply
 
   // WHO
-  .action(data-action="order-who")
+  .action.action--simple(data-action="order-who")
+    .action__bg
+    .action__wrapper(js-closable-wrapper)
+      .selector
+        .selector__option(data-option="Couple" js-select-who) 
+          span Couple
+          +icon('ico-checkmark')
+        
+        .selector__option(data-option="Family" js-select-who)
+          span Family
+          +icon('ico-checkmark')
+       
     
     

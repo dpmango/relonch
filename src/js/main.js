@@ -7,23 +7,6 @@ $(document).ready(function(){
   var _window = $(window);
   var _document = $(document);
 
-  function isRetinaDisplay() {
-    if (window.matchMedia) {
-        var mq = window.matchMedia("only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 2.6/2), only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen  and (min-device-pixel-ratio: 1.3), only screen and (min-resolution: 1.3dppx)");
-        return (mq && mq.matches || (window.devicePixelRatio > 1));
-    }
-  }
-
-  var _mobileDevice = isMobile();
-  // detect mobile devices
-  function isMobile(){
-    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-      return true
-    } else {
-      return false
-    }
-  }
-
   //////////
   // COMMON
   //////////
@@ -37,7 +20,7 @@ $(document).ready(function(){
   // HAMBURGER TOGGLER
   $('.hamburger').on('click', function(){
     $('.hamburger').toggleClass('is-active');
-    $('.mobile-navi').toggleClass('is-active');
+    // $('.mobile-navi').toggleClass('is-active');
   });
 
   //////////
@@ -67,6 +50,7 @@ $(document).ready(function(){
 
   })
 
+  // store global state
   var collectData = {
     orderFrom: "",
     orderTo: "",
@@ -91,7 +75,7 @@ $(document).ready(function(){
         type: 'GET',
         dataType: 'json',
       }).done(function(res) {
-        console.log('got responsive from api', res)
+        console.log('got responce from api', res)
         $('.destination-results__card').remove();
         $.each(res, function(i, val){
           var appendedEl = "<div class='destination-results__card' data-location="+val.value+"><span>"+val.label+"</span><span>"+val.value+"</span> </div>"
@@ -111,7 +95,7 @@ $(document).ready(function(){
     var linkedInput = $('.order__input[data-action='+closestAction.data('action')+']');
     closestAction.removeClass('is-active');
 
-    linkedInput.addClass('is-filled');
+      linkedInput.addClass('is-filled');
     linkedInput.find('span:first-child').html( $(this).find('span:nth-child(2)').html() );
     linkedInput.find('span:last-child').html( $(this).find('span:nth-child(1)').html() );
 
@@ -122,23 +106,6 @@ $(document).ready(function(){
       collectData.orderTo = locationData;
     }
   });
-
-  ////////////
-  // UI
-  ////////////
-
-  // handle outside click
-  $(document).click(function (e) {
-    var container = new Array();
-    container.push($('.ui-select'));
-
-    $.each(container, function(key, value) {
-        if (!$(value).is(e.target) && $(value).has(e.target).length === 0) {
-            $(value).removeClass('active');
-        }
-    });
-  });
-
 
   // Datepicker
   $('[js-datepicker]').datepicker({
@@ -174,8 +141,6 @@ $(document).ready(function(){
     var startDate = $('[js-paste-start-date].is-ready').html();
     var endDate = $('[js-paste-end-date].is-ready').html();
 
-    console.log(startDate)
-
     if ( startDate ){ $('[js-paste-date-summary] span:first-child').html(startDate) }
 
     if ( endDate ){ $('[js-paste-date-summary] span:last-child').html(endDate) }
@@ -183,12 +148,50 @@ $(document).ready(function(){
     if ( startDate || endDate ){
       $('[js-paste-date-summary]').closest('[js-action]').addClass('is-filled');
       $(this).closest('.action').removeClass('is-active');
+
+      collectData.orderDate = "from " + startDate + " - to " + endDate
+    }
+  });
+
+  // set who placeholder and close dialog
+  $('[js-select-who]').each(function(i,val){
+    var self = $(val);
+
+    self.on('click', function(e){
+      var selectedOption = self.data('option');
+      var closestAction = $(this).closest('.action');
+      var linkedInput = $('.order__input[data-action='+closestAction.data('action')+']');
+      closestAction.removeClass('is-active');
+      linkedInput.addClass('is-filled');
+
+      if ( selectedOption ){
+        self.siblings().removeClass('is-active');
+        self.addClass('is-active');
+        linkedInput.find('.order__input-data span').html(selectedOption)
+        collectData.orderWho = selectedOption;
+      }
+    })
+  })
+
+  // handle outside click
+  $('[js-closable-wrapper]').on('click', function(e){
+    if ( $(this).is(e.target) ){
+      $(this).parent().removeClass('is-active');
     }
   })
 
+  $('[js-process-booking]').on('click', function(){
+    // do some valdation
+    if ( collectData.orderFrom && collectData.orderTo && collectData.orderDate && collectData.orderWho ){
+      alert("Send to API:" + JSON.stringify(collectData) );
+
+    } else {
+      alert('Whoops.. you must fill in all data')
+    }
+  });
+
   function formatMonth(date){
     var formatedStr;
-    console.log(date)
     switch(date){
       case 0:
         formatedStr = "Jan"
