@@ -20,7 +20,12 @@ $(document).ready(function(){
   // HAMBURGER TOGGLER
   $('.hamburger').on('click', function(){
     $('.hamburger').toggleClass('is-active');
-    // $('.mobile-navi').toggleClass('is-active');
+    $('.mobile-navi').toggleClass('is-active');
+  });
+
+  $('.order').on('click', function(e){
+    $('.hamburger').removeClass('is-active');
+    $('.mobile-navi').removeClass('is-active');
   });
 
   //////////
@@ -194,7 +199,7 @@ $(document).ready(function(){
     if ( $(this).is(e.target) ){
       $(this).parent().removeClass('is-active');
     }
-  })
+  });
 
   // form submit handler
   $('[js-process-booking]').on('click', function(e){

@@ -50,25 +50,29 @@
     width: 12px
     bottom: -6px
 
-//
-// .hamburger--spring
-//   .hamburger-inner
-//     // top: 2px
-//     transition: background-color 0s 0.15s linear
-//     &::before
-//       // top: 10px
-//       transition: top 0.12s 0.3s cubic-bezier(0.33333, 0.66667, 0.66667, 1), transform 0.15s cubic-bezier(0.55, 0.055, 0.675, 0.19)
-//     &::after
-//       // top: 20px
-//       transition: top 0.3s 0.3s cubic-bezier(0.33333, 0.66667, 0.66667, 1), transform 0.15s cubic-bezier(0.55, 0.055, 0.675, 0.19)
-//   &.is-active .hamburger-inner
-//     transition-delay: 0.32s
-//     background-color: transparent
-//     &::before
-//       top: 0
-//       transition: top 0.12s 0.18s cubic-bezier(0.33333, 0, 0.66667, 0.33333), transform 0.15s 0.32s cubic-bezier(0.215, 0.61, 0.355, 1)
-//       transform: translate3d(0, 6px, 0) rotate(45deg)
-//     &::after
-//       top: 0
-//       transition: top 0.3s cubic-bezier(0.33333, 0, 0.66667, 0.33333), transform 0.15s 0.32s cubic-bezier(0.215, 0.61, 0.355, 1)
-//       transform: translate3d(0, 6px, 0) rotate(-45deg)
+
+.hamburger--squeeze
+  .hamburger-inner
+    transition-duration: 0.1s
+    transition-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19)
+    &::before
+      transition: top 0.1s 0.14s ease, opacity 0.1s ease
+    &::after
+      transition: bottom 0.1s 0.14s ease, transform 0.1s cubic-bezier(0.55, 0.055, 0.675, 0.19)
+  &.is-active .hamburger-inner
+    width: 18px
+    background: #17191C
+    transform: rotate(45deg)
+    transition-delay: 0.14s
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1)
+    &::before
+      background: #17191C
+      top: 0
+      opacity: 0
+      transition: top 0.1s ease, opacity 0.1s 0.14s ease
+    &::after
+      background: #17191C
+      width: 18px
+      bottom: 0
+      transform: rotate(-90deg)
+      transition: bottom 0.1s ease, transform 0.1s 0.14s cubic-bezier(0.215, 0.61, 0.355, 1)
