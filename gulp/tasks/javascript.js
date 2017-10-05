@@ -9,8 +9,6 @@ var config      = require('../config');
 gulp.task('javascript:vendor', function() {
   return gulp.src([
       path.resolve('bower_components', 'jquery/dist/jquery.min.js'),
-      path.resolve('bower_components', 'air-datepicker/dist/js/datepicker.min.js'),
-      path.resolve('bower_components', 'air-datepicker/dist/js/i18n/datepicker.en.js'),
       path.resolve('bower_components', 'clipboard/dist/clipboard.min.js'),
       config.src.js + '/vendor/**/*.js'
      ])

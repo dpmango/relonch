@@ -65,10 +65,212 @@
       | - 
       .calendar-summary__end(js-paste-end-date) end date
       .calendar-summary__days(js-calc-days)
-        
-    .calendar
-      div(js-datepicker)
     
+    .ui-calendar__weeks
+      .ui-calendar__week-day Sun
+      .ui-calendar__week-day Mon
+      .ui-calendar__week-day Tue
+      .ui-calendar__week-day Wed
+      .ui-calendar__week-day thu
+      .ui-calendar__week-day Fri
+      .ui-calendar__week-day Sat
+    .calendar
+      .ui-calendar        
+        // this month would be always hidden as it have nothing to choose
+        .ui-calendar__month(data-month="201709")
+          .ui-calendar__month-name September 2017
+          .ui-calendar__grid
+            .ui-calendar__day(data-date="20170901") 1
+        
+        // starts from here
+        .ui-calendar__month(data-month="201710")
+          .ui-calendar__month-name October 2017
+          .ui-calendar__grid
+            .ui-calendar__day(data-date="20171001") 1
+            .ui-calendar__day(data-date="20171002") 2
+            .ui-calendar__day(data-date="20171003") 3
+            .ui-calendar__day(data-date="20171004") 4
+            .ui-calendar__day(data-date="20171005") 5
+            .ui-calendar__day(data-date="20171006") 6
+            .ui-calendar__day(data-date="20171007") 7
+            .ui-calendar__day(data-date="20171008") 8
+            .ui-calendar__day(data-date="20171009") 9
+            .ui-calendar__day(data-date="20171010") 10
+            .ui-calendar__day(data-date="20171011") 11
+            .ui-calendar__day(data-date="20171012") 12
+            .ui-calendar__day(data-date="20171013") 13
+            .ui-calendar__day(data-date="20171014") 14
+            .ui-calendar__day(data-date="20171015") 15
+            .ui-calendar__day(data-date="20171016") 16
+            .ui-calendar__day(data-date="20171017") 17
+            .ui-calendar__day(data-date="20171018") 18
+            .ui-calendar__day(data-date="20171019") 19
+            .ui-calendar__day(data-date="20171020") 20
+            .ui-calendar__day(data-date="20171021") 21
+            .ui-calendar__day(data-date="20171022") 22
+            .ui-calendar__day(data-date="20171023") 23
+            .ui-calendar__day(data-date="20171024") 24
+            .ui-calendar__day(data-date="20171025") 25
+            .ui-calendar__day(data-date="20171026") 26
+            .ui-calendar__day(data-date="20171027") 27
+            .ui-calendar__day(data-date="20171028") 28
+            .ui-calendar__day(data-date="20171029") 29
+            .ui-calendar__day(data-date="20171030") 30
+            .ui-calendar__day(data-date="20171031") 31
+        // next month
+        .ui-calendar__month(data-month="201711")
+          .ui-calendar__month-name November 2017
+          .ui-calendar__grid
+            .ui-calendar__day.is-placeholder
+            .ui-calendar__day.is-placeholder
+            .ui-calendar__day.is-placeholder
+            .ui-calendar__day(data-date="20171101") 1
+            .ui-calendar__day(data-date="20171102") 2
+            .ui-calendar__day(data-date="20171103") 3
+            .ui-calendar__day(data-date="20171104") 4
+            .ui-calendar__day(data-date="20171105") 5
+            .ui-calendar__day(data-date="20171106") 6
+            .ui-calendar__day(data-date="20171107") 7
+            .ui-calendar__day(data-date="20171108") 8
+            .ui-calendar__day(data-date="20171109") 9
+            .ui-calendar__day(data-date="20171110") 10
+            .ui-calendar__day(data-date="20171111") 11
+            .ui-calendar__day(data-date="20171112") 12
+            .ui-calendar__day(data-date="20171113") 13
+            .ui-calendar__day(data-date="20171114") 14
+            .ui-calendar__day(data-date="20171115") 15
+            .ui-calendar__day(data-date="20171116") 16
+            .ui-calendar__day(data-date="20171117") 17
+            .ui-calendar__day(data-date="20171118") 18
+            .ui-calendar__day(data-date="20171119") 19
+            .ui-calendar__day(data-date="20171120") 20
+            .ui-calendar__day(data-date="20171121") 21
+            .ui-calendar__day(data-date="20171122") 22
+            .ui-calendar__day(data-date="20171123") 23
+            .ui-calendar__day(data-date="20171124") 24
+            .ui-calendar__day(data-date="20171125") 25
+            .ui-calendar__day(data-date="20171126") 26
+            .ui-calendar__day(data-date="20171127") 27
+            .ui-calendar__day(data-date="20171128") 28
+            .ui-calendar__day(data-date="20171129") 29
+            .ui-calendar__day(data-date="20171130") 30
+              
+        // next month
+        .ui-calendar__month(data-month="201712")
+          .ui-calendar__month-name December 2017
+          .ui-calendar__grid
+            .ui-calendar__day.is-placeholder
+            .ui-calendar__day.is-placeholder
+            .ui-calendar__day.is-placeholder
+            .ui-calendar__day.is-placeholder
+            .ui-calendar__day.is-placeholder
+            .ui-calendar__day(data-date="20171201") 1
+            .ui-calendar__day(data-date="20171202") 2
+            .ui-calendar__day(data-date="20171203") 3
+            .ui-calendar__day(data-date="20171204") 4
+            .ui-calendar__day(data-date="20171205") 5
+            .ui-calendar__day(data-date="20171206") 6
+            .ui-calendar__day(data-date="20171207") 7
+            .ui-calendar__day(data-date="20171208") 8
+            .ui-calendar__day(data-date="20171209") 9
+            .ui-calendar__day(data-date="20171210") 10
+            .ui-calendar__day(data-date="20171211") 11
+            .ui-calendar__day(data-date="20171212") 12
+            .ui-calendar__day(data-date="20171213") 13
+            .ui-calendar__day(data-date="20171214") 14
+            .ui-calendar__day(data-date="20171215") 15
+            .ui-calendar__day(data-date="20171216") 16
+            .ui-calendar__day(data-date="20171217") 17
+            .ui-calendar__day(data-date="20171218") 18
+            .ui-calendar__day(data-date="20171219") 19
+            .ui-calendar__day(data-date="20171220") 20
+            .ui-calendar__day(data-date="20171221") 21
+            .ui-calendar__day(data-date="20171222") 22
+            .ui-calendar__day(data-date="20171223") 23
+            .ui-calendar__day(data-date="20171224") 24
+            .ui-calendar__day(data-date="20171225") 25
+            .ui-calendar__day(data-date="20171226") 26
+            .ui-calendar__day(data-date="20171227") 27
+            .ui-calendar__day(data-date="20171228") 28
+            .ui-calendar__day(data-date="20171229") 29
+            .ui-calendar__day(data-date="20171230") 30
+            .ui-calendar__day(data-date="20171231") 31
+
+        // next month
+        .ui-calendar__month(data-month="201801")
+          .ui-calendar__month-name January 2018
+          .ui-calendar__grid
+            .ui-calendar__day.is-placeholder
+            .ui-calendar__day(data-date="20180101") 1
+            .ui-calendar__day(data-date="20180102") 2
+            .ui-calendar__day(data-date="20180103") 3
+            .ui-calendar__day(data-date="20180104") 4
+            .ui-calendar__day(data-date="20180105") 5
+            .ui-calendar__day(data-date="20180106") 6
+            .ui-calendar__day(data-date="20180107") 7
+            .ui-calendar__day(data-date="20180108") 8
+            .ui-calendar__day(data-date="20180109") 9
+            .ui-calendar__day(data-date="20180110") 10
+            .ui-calendar__day(data-date="20180111") 11
+            .ui-calendar__day(data-date="20180112") 12
+            .ui-calendar__day(data-date="20180113") 13
+            .ui-calendar__day(data-date="20180114") 14
+            .ui-calendar__day(data-date="20180115") 15
+            .ui-calendar__day(data-date="20180116") 16
+            .ui-calendar__day(data-date="20180117") 17
+            .ui-calendar__day(data-date="20180118") 18
+            .ui-calendar__day(data-date="20180119") 19
+            .ui-calendar__day(data-date="20180120") 20
+            .ui-calendar__day(data-date="20180121") 21
+            .ui-calendar__day(data-date="20180122") 22
+            .ui-calendar__day(data-date="20180123") 23
+            .ui-calendar__day(data-date="20180124") 24
+            .ui-calendar__day(data-date="20180125") 25
+            .ui-calendar__day(data-date="20180126") 26
+            .ui-calendar__day(data-date="20180127") 27
+            .ui-calendar__day(data-date="20180128") 28
+            .ui-calendar__day(data-date="20180129") 29
+            .ui-calendar__day(data-date="20180130") 30
+            .ui-calendar__day(data-date="20180131") 31
+            
+        // next month
+        .ui-calendar__month(data-month="201802")
+          .ui-calendar__month-name February 2018
+          .ui-calendar__grid
+            .ui-calendar__day.is-placeholder
+            .ui-calendar__day.is-placeholder
+            .ui-calendar__day.is-placeholder
+            .ui-calendar__day.is-placeholder
+            .ui-calendar__day(data-date="20180201") 1
+            .ui-calendar__day(data-date="20180202") 2
+            .ui-calendar__day(data-date="20180203") 3
+            .ui-calendar__day(data-date="20180204") 4
+            .ui-calendar__day(data-date="20180205") 5
+            .ui-calendar__day(data-date="20180206") 6
+            .ui-calendar__day(data-date="20180207") 7
+            .ui-calendar__day(data-date="20180208") 8
+            .ui-calendar__day(data-date="20180209") 9
+            .ui-calendar__day(data-date="20180210") 10
+            .ui-calendar__day(data-date="20180211") 11
+            .ui-calendar__day(data-date="20180212") 12
+            .ui-calendar__day(data-date="20180213") 13
+            .ui-calendar__day(data-date="20180214") 14
+            .ui-calendar__day(data-date="20180215") 15
+            .ui-calendar__day(data-date="20180216") 16
+            .ui-calendar__day(data-date="20180217") 17
+            .ui-calendar__day(data-date="20180218") 18
+            .ui-calendar__day(data-date="20180219") 19
+            .ui-calendar__day(data-date="20180220") 20
+            .ui-calendar__day(data-date="20180221") 21
+            .ui-calendar__day(data-date="20180222") 22
+            .ui-calendar__day(data-date="20180223") 23
+            .ui-calendar__day(data-date="20180224") 24
+            .ui-calendar__day(data-date="20180225") 25
+            .ui-calendar__day(data-date="20180226") 26
+            .ui-calendar__day(data-date="20180227") 27
+            .ui-calendar__day(data-date="20180228") 28
+
+            
     .calendar-cta
       button(type='submit' js-apply-date).btn.btn--apply.btn--block Apply
 

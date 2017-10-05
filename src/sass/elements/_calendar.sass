@@ -1,0 +1,90 @@
+.ui-calendar
+  position: absolute
+  top: 0
+  left: 0
+  box-sizing: content-box
+  font-size: 14px
+  font-weight: 500
+  color: #424850
+  width: 100%
+  padding: 0
+  // moved up in dom
+  &__weeks
+    position: relative
+    display: flex
+    font-size: 14px
+    font-weight: 500
+    color: #424850
+    padding: 10px 10px
+    &::before
+      display: inline-block
+      content: ' '
+      position: absolute
+      top: 0
+      left: 20px
+      right: 20px
+      background: #E6E6E6
+      height: 1px
+
+  &__week-day
+    color: #424850
+    font-size: 12px
+    flex: 1 1 14.28571%
+    text-align: center
+    text-transform: uppercase
+    font-size: .8em
+
+  &__month
+    margin: 25px 10px 35px 10px
+    &-name
+      color: #424850
+      font-size: 18px
+      text-align: center
+      font-weight: 500
+      margin-bottom: 10px
+      text-transform: uppercase
+    &.is-hidden
+      display: none
+      opacity: 0
+      z-index: -1
+
+  &__grid
+    display: flex
+    flex-wrap: wrap
+
+  &__day
+    width: 14.28571%
+    border-radius: 2px
+    box-sizing: border-box
+    cursor: pointer
+    display: flex
+    position: relative
+    align-items: center
+    justify-content: center
+    height: 40px
+    z-index: 1
+    transition: all .1s ease
+    &:hover:not(.is-placeholder):not(.is-range-from):not(.is-range-to):not(.is-selected):not(.is-in-range)
+      background: #f0f0f0
+    &.is-current
+      color: #FFB700
+    &.is-placeholder
+      cursor: auto
+
+    &.is-range-from
+      border-radius: 2px 0 0 2px
+      background: #424850
+      color: white
+      background: #2C3036
+    &.is-range-to
+      border-radius: 2px 0 0 2px
+      background: #424850
+      color: white
+      background: #2C3036
+    &.is-selected
+      background: #2C3036
+      color: white
+    &.is-in-range
+      background: #424850
+      color: white
+      border-radius: 0

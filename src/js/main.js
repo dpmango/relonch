@@ -128,36 +128,62 @@ $(document).ready(function(){
   });
 
   // Datepicker
-  $('[js-datepicker]').datepicker({
-    inline: true,
-    minDate: new Date(),
-    language: 'en',
-    multipleDates: 2,
-    range: true,
-    onSelect: function(formattedDate, date, inst){
-      if ( date[0] ){
-        var startDateStr = date[0].getDate() + " " + formatMonth(date[0].getMonth());
+  var currentDate = new Date();
 
+  function initCalendar(){
+    // hide past months
+    $('.ui-calendar__month').each(function(i,val){
+      if ( yyyymm(currentDate) > $(val).data('month') ){
+        $(val).addClass('is-hidden');
+      }
+    });
+
+    // find current date
+    $('.ui-calendar__day').each(function(i,val){
+      if ( yyyymmdd(currentDate) == $(val).data('date') ){
+        $(val).addClass('is-current');
+      }
+    });
+
+    $('.ui-calendar__day').on('click', function(){
+      var dayData = $(this).data('date');
+
+      if ( dayData ){
+        $(this).addClass('is-selected');
+        var startDateStr = dayData.toString().substring(6,8) + " " + formatMonth( parseInt(dayData.toString().substring(4,6)) ) ;
         $('[js-paste-start-date]').html(startDateStr).addClass('is-ready');
-        collectData.orderStartDay = date[0].yyyymmdd()
+        collectData.orderStartDay = dayData
+
+        // how to make range here ???
+        // ????
       }
 
-      if ( date[1] ){
-        var endDateStr = date[1].getDate() + " " + formatMonth(date[1].getMonth());;
+    })
 
-        $('[js-paste-end-date]').html(endDateStr).addClass('is-ready');
-        collectData.orderEndDay = date[1].yyyymmdd()
-      }
+    // if ( date[0] ){
+    //   var startDateStr = date[0].getDate() + " " + formatMonth(date[0].getMonth());
+    //
+    //   $('[js-paste-start-date]').html(startDateStr).addClass('is-ready');
+    //   collectData.orderStartDay = date[0].yyyymmdd()
+    // }
+    //
+    // if ( date[1] ){
+    //   var endDateStr = date[1].getDate() + " " + formatMonth(date[1].getMonth());;
+    //
+    //   $('[js-paste-end-date]').html(endDateStr).addClass('is-ready');
+    //   collectData.orderEndDay = date[1].yyyymmdd()
+    // }
+    //
+    // if ( date[0] && date[1] ){
+    //   var timeDiff = Math.abs(date[1].getTime() - date[0].getTime());
+    //   var calcDaysStr = Math.ceil(timeDiff / (1000 * 3600 * 24)) + " days";
+    //
+    //   $('[js-calc-days]').html(calcDaysStr);
+    // }
 
-      if ( date[0] && date[1] ){
-        var timeDiff = Math.abs(date[1].getTime() - date[0].getTime());
-        var calcDaysStr = Math.ceil(timeDiff / (1000 * 3600 * 24)) + " days";
+  }
 
-        $('[js-calc-days]').html(calcDaysStr);
-      }
-    }
-
-  });
+  initCalendar();
 
   // set date to placeholder and close dialog
   $('[js-apply-date]').on('click', function(){
@@ -331,13 +357,20 @@ $(document).ready(function(){
     return formatedStr;
   }
 
-  Date.prototype.yyyymmdd = function() {
-    var mm = this.getMonth() + 1; // getMonth() is zero-based
-    var dd = this.getDate();
+  function yyyymmdd(date) {
+    var mm = date.getMonth() + 1; // getMonth() is zero-based
+    var dd = date.getDate();
 
-    return [this.getFullYear(),
+    return [date.getFullYear(),
             (mm>9 ? '' : '0') + mm,
             (dd>9 ? '' : '0') + dd
+           ].join('');
+  };
+
+  function yyyymm(date) {
+    var mm = date.getMonth() + 1; // getMonth() is zero-based
+    return [date.getFullYear(),
+            (mm>9 ? '' : '0') + mm
            ].join('');
   };
 
