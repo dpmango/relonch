@@ -145,8 +145,9 @@ $(document).ready(function(){
 
     $('.ui-calendar__day').on('click', function(){
       var dayData = $(this).data('date');
+      var isValid = !$(this).is('.is-disabled')
 
-      if ( dayData ){
+      if ( dayData && isValid){
         var dayYear = dayData.toString().substring(0,4);
         var dayMonth = formatMonth( parseInt(dayData.toString().substring(4,6)) - 1 );
         var dayMonthRaw = parseInt(dayData.toString().substring(4,6));
@@ -155,8 +156,7 @@ $(document).ready(function(){
         var dayStrFormated = dayDay + " " + dayMonth ;
 
 
-        // reset if both selected and it's clicked again
-        if ( calendarState.rangeFrom != "" && calendarState.rangeTo != "" ){
+        function resetValues(){
           $('.ui-calendar__day')
             .removeClass('is-selected')
             .removeClass('is-range-from')
@@ -171,25 +171,46 @@ $(document).ready(function(){
           $('[js-calc-days]').html("")
         }
 
-        // first & second date select operator
-        if ( calendarState.rangeFrom == "" ){
+        function setRangeFrom(el){
           $('[js-paste-start-date]').html(dayStrFormated).addClass('is-ready');
           collectData.orderStartDay = dayData
           calendarState.rangeFrom = dayDate
 
-          $(this).addClass('is-selected').addClass('is-range-from');
-        } else if (calendarState.rangeTo == ""){
+          el.addClass('is-selected').addClass('is-range-from');
+        }
+
+        function setRangeTo(el){
           $('[js-paste-end-date]').html(dayStrFormated).addClass('is-ready');
           collectData.orderEndDay = dayData
           calendarState.rangeTo = dayDate
 
-          $(this).addClass('is-selected').addClass('is-range-to');
+          el.addClass('is-selected').addClass('is-range-to');
+        }
+
+        // reset if both selected and it's clicked again
+        if ( calendarState.rangeFrom != "" && calendarState.rangeTo != "" ){
+          resetValues();
+        }
+
+        // not allow select in past
+        if ( calendarState.rangeFrom != "" && calendarState.rangeTo == "" ){
+          if ( yyyymmdd(calendarState.rangeFrom) > dayData ){
+            resetValues();
+            setRangeFrom();
+          }
+        }
+
+        // first & second date select operator
+        if ( calendarState.rangeFrom == "" ){
+          setRangeFrom( $(this) );
+        } else if (calendarState.rangeTo == ""){
+          setRangeTo( $(this) );
         }
 
         // calc difference
         if ( calendarState.rangeFrom != "" && calendarState.rangeTo != "" ){
           var timeDiff = Math.abs(calendarState.rangeTo.getTime() - calendarState.rangeFrom.getTime());
-          var calcDaysStr = Math.ceil(timeDiff / (1000 * 3600 * 24)) + " days";
+          var calcDaysStr = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1 + " days";
 
           $('[js-calc-days]').html(calcDaysStr);
         }
