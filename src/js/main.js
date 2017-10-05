@@ -196,7 +196,7 @@ $(document).ready(function(){
         if ( calendarState.rangeFrom != "" && calendarState.rangeTo == "" ){
           if ( yyyymmdd(calendarState.rangeFrom) > dayData ){
             resetValues();
-            setRangeFrom();
+            setRangeFrom( $(this) );
           }
         }
 
