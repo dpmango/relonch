@@ -1,11 +1,25 @@
 ---
-title: Order page
+title: Bloger Colaboration
 ---
 extends shared/_layout
 block header
-  include components/_header2
+
 block content
   .order
+    .order-bloger
+      .order-bloger__wrapper
+        .order-bloger__bg
+          img(src='img/orderBlogerBg.jpg')          
+        .order-bloger__content
+          .order-bloger__logo
+            i.icon.icon-logo
+          .order-bloger__title Relonch <span>x</span>
+          .order-bloger__name(js-paste-trendsetter) HEY INSTAGRAMMER !
+          .order-bloger__description Take Remarkable Photos on your upcoming trip
+          .order-bloger__cta
+            .btn.btn--white(js-goTo-order) Grab a camera for free
+            
+        
     .container.container--flex
       .order__title Magic сamera <br> for magical trips
       .order__form
@@ -50,4 +64,5 @@ block content
           button(type='submit' js-process-booking).btn.btn--cta.btn--block Book a camera
   
   include components/_actions
+
       

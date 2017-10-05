@@ -50,7 +50,6 @@
             padding-right: 5px
           &:last-child
             padding-left: 5px
-
     &-placeholder
       position: absolute
       top: 50%
@@ -108,8 +107,85 @@
       transform: translate3d(0,-3px,0) scale(1.03)
     // &--small:hover
     //   transform: translate3d(0,5px,0)
+    &.has-error
+      box-shadow: inset 0px 0 8px tomato
+      // animation-name: shake
+      // animation-duration: .4s
+      // animation-timing-function: ease
+      // animation-fill-mode: both
   &__cta
     margin-top: 3px
+
+.order-bloger
+  position: fixed 0
+  z-index: 100
+  display: flex
+  flex-direction: column
+  transition: transform $transitionSpeed $ease, opacity .2s .3s ease
+  &.is-removed
+    opacity: 0
+    pointer-events: none
+    transform: translate3d(0,-100%,0)
+  &__wrapper
+    flex: 1 1 auto
+    position: relative
+    display: flex
+    flex-direction: column
+    text-align: center
+  &__bg
+    position: absolute 0
+    img
+      position: absolute
+      z-index: 2
+      top: 50%
+      left: 50%
+      transform: translate3d(-50%,-50%,0)
+      min-width: 100%
+      min-height: 100%
+      width: auto
+      height: auto
+      opacity: .5
+    &::before
+      display: inline-block
+      content: ' '
+      position: absolute 0
+      z-index: 1
+      background: #000000
+
+  &__content
+    flex: 1 0 auto
+    position: relative
+    z-index: 5
+    padding: 30px 0 30px 0
+    color: white
+    display: flex
+    flex-direction: column
+
+  &__title
+    margin-top: auto
+    font-size: 22px
+    font-weight: 600
+    text-transform: uppercase
+    span
+      margin-top: 7px
+      display: block
+      font-weight: 300
+      opacity: .5
+      line-height: 1
+
+  &__name
+    margin-top: 5px
+    font-size: 22px
+    font-weight: 600
+    text-transform: uppercase
+
+  &__description
+    font-size: 16px
+    margin-top: 25px
+
+  &__cta
+    margin-top: 10px
+
 
 
 // actions
@@ -127,7 +203,6 @@
     background: transparent
     transform: translate3d(0,0,0)
   &__bg
-    content: ' '
     position: absolute 0
     background: rgba(black, .3)
   &__wrapper
@@ -222,7 +297,7 @@
   box-shadow: 0px 2px 10px rgba(black, .4)
   border-radius: 4px
   background: white
-  transform: translate3d(0,50px,0)
+  transform: translate3d(0,-50px,0)
   transition: all $transitionSpeed $ease
   &__option
     display: flex
@@ -273,6 +348,9 @@
     text-align: center
     padding-left: 20px
     padding-right: 20px
+    max-width: 400px
+    margin-left: auto
+    margin-right: auto
     color: white
   &__title
     margin-top: auto
@@ -299,6 +377,8 @@
         color: $colorMute
       &:focus
         border-color: #F7BA00
+      &.has-error
+        border-color: tomato
     button
       margin-top: 6px
 

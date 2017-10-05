@@ -24,8 +24,31 @@ $(document).ready(function(){
   });
 
   //////////
-  // ORDER
+  // ORDER + BLOGGER
   //////////
+
+  // store global state
+  var collectData = {
+    orderFrom: "",
+    orderTo: "",
+    orderStartDay: "",
+    orderEndDay: "",
+    orderWho: "",
+    trendsetter: ""
+  }
+
+  // hide blogger screen
+  $('[js-goTo-order]').on('click', function(){
+    $('.order-bloger').addClass('is-removed')
+  });
+
+  // Blogger trendsetter
+  if ( getUrlParameter('blogger') ){
+    var parseTrendsetter = getUrlParameter('blogger').replace(/\+/g, '%20');
+    parseTrendsetter = decodeURIComponent(parseTrendsetter);
+    $('[js-paste-trendsetter]').html(parseTrendsetter)
+    collectData.trendsetter = parseTrendsetter;
+  }
 
   // opens dialog window
   $('[js-action]').each(function(i,val){
@@ -49,14 +72,6 @@ $(document).ready(function(){
     })
 
   })
-
-  // store global state
-  var collectData = {
-    orderFrom: "",
-    orderTo: "",
-    orderDate: "",
-    orderWho: ""
-  }
 
   // autocompleate
   $('[js-search-autocompleate]').on('keyup', function(e){
@@ -90,20 +105,20 @@ $(document).ready(function(){
 
   // create placeholder and close current dialog
   $('.destination-results').on('click', '.destination-results__card', function(){
-    var locationData = $(this).data('location');
+    // var locationData = $(this).data('location');
     var closestAction = $(this).closest('.action');
     var linkedInput = $('.order__input[data-action='+closestAction.data('action')+']');
     closestAction.removeClass('is-active');
 
-      linkedInput.addClass('is-filled');
+    linkedInput.addClass('is-filled').removeClass('has-error');
     linkedInput.find('span:first-child').html( $(this).find('span:nth-child(2)').html() );
     linkedInput.find('span:last-child').html( $(this).find('span:nth-child(1)').html() );
 
     // update global state
     if ( closestAction.data('action') == "order-from" ){
-      collectData.orderFrom = locationData;
+      collectData.orderFrom = $(this).find('span:nth-child(1)').html() ;
     } else if (closestAction.data('action') == "order-to" ){
-      collectData.orderTo = locationData;
+      collectData.orderTo = $(this).find('span:nth-child(1)').html() ;
     }
   });
 
@@ -119,12 +134,14 @@ $(document).ready(function(){
         var startDateStr = date[0].getDate() + " " + formatMonth(date[0].getMonth());
 
         $('[js-paste-start-date]').html(startDateStr).addClass('is-ready');
+        collectData.orderStartDay = date[0].yyyymmdd()
       }
 
       if ( date[1] ){
         var endDateStr = date[1].getDate() + " " + formatMonth(date[1].getMonth());;
 
         $('[js-paste-end-date]').html(endDateStr).addClass('is-ready');
+        collectData.orderEndDay = date[1].yyyymmdd()
       }
 
       if ( date[0] && date[1] ){
@@ -134,6 +151,7 @@ $(document).ready(function(){
         $('[js-calc-days]').html(calcDaysStr);
       }
     }
+
   });
 
   // set date to placeholder and close dialog
@@ -146,10 +164,8 @@ $(document).ready(function(){
     if ( endDate ){ $('[js-paste-date-summary] span:last-child').html(endDate) }
 
     if ( startDate || endDate ){
-      $('[js-paste-date-summary]').closest('[js-action]').addClass('is-filled');
+      $('[js-paste-date-summary]').closest('[js-action]').addClass('is-filled').removeClass('has-error');;
       $(this).closest('.action').removeClass('is-active');
-
-      collectData.orderDate = "from " + startDate + " - to " + endDate
     }
   });
 
@@ -162,7 +178,7 @@ $(document).ready(function(){
       var closestAction = $(this).closest('.action');
       var linkedInput = $('.order__input[data-action='+closestAction.data('action')+']');
       closestAction.removeClass('is-active');
-      linkedInput.addClass('is-filled');
+      linkedInput.addClass('is-filled').removeClass('has-error');;
 
       if ( selectedOption ){
         self.siblings().removeClass('is-active');
@@ -183,12 +199,23 @@ $(document).ready(function(){
   // form submit handler
   $('[js-process-booking]').on('click', function(e){
     // do some valdation
-    if ( collectData.orderFrom && collectData.orderTo && collectData.orderDate && collectData.orderWho ){
-      alert("Send to API:" + JSON.stringify(collectData) );
+    if ( collectData.orderFrom && collectData.orderTo && collectData.orderStartDay && collectData.orderWho ){
       $('.order-name').addClass('is-active');
-
     } else {
-      alert('Whoops.. you must fill in all data')
+      // validation
+
+      if ( !collectData.orderFrom ){
+        $('[js-action][data-action=order-from]').addClass('has-error');
+      }
+      if ( !collectData.orderFrom ){
+        $('[js-action][data-action=order-to]').addClass('has-error');
+      }
+      if ( !collectData.orderStartDay ){
+        $('[js-action][data-action=order-date]').addClass('has-error');
+      }
+      if ( !collectData.orderWho ){
+        $('[js-action][data-action=order-who]').addClass('has-error');
+      }
     }
 
     e.preventDefault();
@@ -203,15 +230,33 @@ $(document).ready(function(){
       // validate with instagramm api ?
 
       // if all good -- show form and booking number
-      $('.order-number').addClass('is-active');
+      console.log(collectData)
 
-      // should this parsed from API?
-      var orderNumber = Math.floor(1000 + Math.random() * 9000);
-      $('[js-paste-booking-number]').text(orderNumber);
-      $('[js-copy-clipboard]').attr('data-clipboard-text', orderNumber.toString());
+      $.ajax({
+        url: "https://aws-test.relonch.com/api/1.0/rent/inst",
+        type: 'POST',
+        data: {
+          start_day: collectData.orderStartDay, //yyyymmdd format
+          end_day: collectData.orderEndDay, //yyyymmdd format
+          name: input, // instagram nickname
+          trendsetter: collectData.trendsetter, //
+          from: collectData.orderFrom, // city
+          to: collectData.orderTo, // city
+          who: collectData.orderWho
+        },
+        dataType: 'json',
+      }).done(function(res) {
+        console.log('got responce from api', res)
+        $('.order-number').addClass('is-active');
+        // var orderNumber = Math.floor(1000 + Math.random() * 9000);
+        var orderNumber = res.result;
+        $('[js-paste-booking-number]').text(orderNumber);
+        $('[js-copy-clipboard]').attr('data-clipboard-text', orderNumber.toString());
+
+      });
 
     } else {
-      alert('please enter your nickname');
+      $(this).find('input').addClass('has-error')
     }
 
     e.preventDefault();
@@ -221,7 +266,7 @@ $(document).ready(function(){
   var clipboard = new Clipboard('[js-copy-clipboard]');
 
   clipboard.on('success', function(e) {
-    alert('copied ' + e.text + '. Redirect somewhere else?');
+    alert('Order number Copied: ' + e.text + '. Please refer back to instagramm');
 
     // console.info('Action:', e.action);
     // console.info('Text:', e.text);
@@ -280,5 +325,31 @@ $(document).ready(function(){
     }
     return formatedStr;
   }
+
+  Date.prototype.yyyymmdd = function() {
+    var mm = this.getMonth() + 1; // getMonth() is zero-based
+    var dd = this.getDate();
+
+    return [this.getFullYear(),
+            (mm>9 ? '' : '0') + mm,
+            (dd>9 ? '' : '0') + dd
+           ].join('');
+  };
+
+  function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+      sURLVariables = sPageURL.split('&'),
+      sParameterName,
+      i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+      sParameterName = sURLVariables[i].split('=');
+
+      if (sParameterName[0] === sParam) {
+          return sParameterName[1] === undefined ? true : sParameterName[1];
+      }
+    }
+  };
+
 
 });
