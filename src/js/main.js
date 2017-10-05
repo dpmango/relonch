@@ -145,14 +145,15 @@ $(document).ready(function(){
 
     $('.ui-calendar__day').on('click', function(){
       var dayData = $(this).data('date');
-      var dayYear = dayData.toString().substring(0,4);
-      var dayMonth = formatMonth( parseInt(dayData.toString().substring(4,6)) - 1 );
-      var dayMonthRaw = parseInt(dayData.toString().substring(4,6));
-      var dayDay = dayData.toString().substring(6,8);
-      var dayDate = new Date(dayYear, dayMonthRaw - 1, dayDay);
-      var dayStrFormated = dayDay + " " + dayMonth ;
 
       if ( dayData ){
+        var dayYear = dayData.toString().substring(0,4);
+        var dayMonth = formatMonth( parseInt(dayData.toString().substring(4,6)) - 1 );
+        var dayMonthRaw = parseInt(dayData.toString().substring(4,6));
+        var dayDay = dayData.toString().substring(6,8);
+        var dayDate = new Date(dayYear, dayMonthRaw - 1, dayDay);
+        var dayStrFormated = dayDay + " " + dayMonth ;
+
 
         // reset if both selected and it's clicked again
         if ( calendarState.rangeFrom != "" && calendarState.rangeTo != "" ){
@@ -160,6 +161,7 @@ $(document).ready(function(){
             .removeClass('is-selected')
             .removeClass('is-range-from')
             .removeClass('is-range-to')
+            .removeClass('is-in-range')
 
           calendarState.rangeFrom = ""
           calendarState.rangeTo = ""
@@ -192,11 +194,18 @@ $(document).ready(function(){
           $('[js-calc-days]').html(calcDaysStr);
         }
 
+        // set range
+        if ( calendarState.rangeFrom != "" && calendarState.rangeTo != "" ){
+          $.each( $('.ui-calendar__day'), function(i,val) {
+            var _this = $(val);
+            var _thisDate = _this.data('date');
+            if ( _thisDate > collectData.orderStartDay && _thisDate < collectData.orderEndDay ){
+              _this.addClass('is-in-range')
+            }
+          });
+        }
 
       }
-
-      console.log(calendarState);
-
     })
 
   }
