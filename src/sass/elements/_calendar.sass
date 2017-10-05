@@ -64,23 +64,18 @@
     height: 40px
     z-index: 1
     transition: all .1s ease
-    &:hover:not(.is-placeholder):not(.is-range-from):not(.is-range-to):not(.is-selected):not(.is-in-range)
+    &:hover:not(.is-placeholder):not(.is-range-from):not(.is-range-to):not(.is-selected):not(.is-in-range):not(.is-disabled)
       background: #f0f0f0
     &.is-current
       color: #FFB700
-    &.is-placeholder
+    &.is-placeholder, &.is-disabled
       cursor: auto
-
+    &.is-disabled
+      opacity: .4
     &.is-range-from
       border-radius: 2px 0 0 2px
-      background: #424850
-      color: white
-      background: #2C3036
     &.is-range-to
-      border-radius: 2px 0 0 2px
-      background: #424850
-      color: white
-      background: #2C3036
+      border-radius: 0px 2px 2px 0px
     &.is-selected
       background: #2C3036
       color: white

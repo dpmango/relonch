@@ -81,13 +81,6 @@ $(document).ready(function(){
   // autocompleate
   $('[js-search-autocompleate]').on('keyup', function(e){
     var curVal = $(this).val();
-    // var searchUrl = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input="+curVal+"&types=address&key=AIzaSyARV4GddkVojvH-Xt-wXay2ZTM2hnpVdBs"
-    // var iataCodes = {
-    //   url: "http://iatacodes.org/api/v6",
-    //   endpioint: "autocomplete?query="+curVal+"",
-    //   key: "0057b314-ac37-41df-ba78-d167ae99f25f"
-    // }
-    // var searchUrl = iataCodes.url + "/" + iataCodes.endpioint + "?api_key=" + iataCodes.key
     searchUrl = "http://api.sandbox.amadeus.com/v1.2/airports/autocomplete?apikey=yaTbPeg2zvnWJiiQNU9eFlV3gSAPGXYo&term="+curVal+"";
     if ( curVal && curVal != "" ){
       $.ajax({
@@ -103,9 +96,6 @@ $(document).ready(function(){
         })
       });
     }
-    // https://sandbox.amadeus.com/travel-innovation-sandbox/apis/get/airports/autocomplete
-    // https://www.programmableweb.com/api/amadeus-airport-autocomplete
-    // https://www.air-port-codes.com
   });
 
   // create placeholder and close current dialog
@@ -128,58 +118,86 @@ $(document).ready(function(){
   });
 
   // Datepicker
-  var currentDate = new Date();
+
+  var calendarState = {
+    currentDate: new Date(),
+    rangeFrom: "",
+    rangeTo: ""
+  }
 
   function initCalendar(){
     // hide past months
     $('.ui-calendar__month').each(function(i,val){
-      if ( yyyymm(currentDate) > $(val).data('month') ){
+      if ( yyyymm(calendarState.currentDate) > $(val).data('month') ){
         $(val).addClass('is-hidden');
       }
     });
 
-    // find current date
+    // find past and current dates
     $('.ui-calendar__day').each(function(i,val){
-      if ( yyyymmdd(currentDate) == $(val).data('date') ){
+      if ( yyyymmdd(calendarState.currentDate) == $(val).data('date') ){
         $(val).addClass('is-current');
+      }
+      if ( yyyymmdd(calendarState.currentDate) > $(val).data('date') ){
+        $(val).addClass('is-disabled');
       }
     });
 
     $('.ui-calendar__day').on('click', function(){
       var dayData = $(this).data('date');
+      var dayYear = dayData.toString().substring(0,4);
+      var dayMonth = formatMonth( parseInt(dayData.toString().substring(4,6)) - 1 );
+      var dayMonthRaw = parseInt(dayData.toString().substring(4,6));
+      var dayDay = dayData.toString().substring(6,8);
+      var dayDate = new Date(dayYear, dayMonthRaw - 1, dayDay);
+      var dayStrFormated = dayDay + " " + dayMonth ;
 
       if ( dayData ){
-        $(this).addClass('is-selected');
-        var startDateStr = dayData.toString().substring(6,8) + " " + formatMonth( parseInt(dayData.toString().substring(4,6)) ) ;
-        $('[js-paste-start-date]').html(startDateStr).addClass('is-ready');
-        collectData.orderStartDay = dayData
 
-        // how to make range here ???
-        // ????
+        // reset if both selected and it's clicked again
+        if ( calendarState.rangeFrom != "" && calendarState.rangeTo != "" ){
+          $('.ui-calendar__day')
+            .removeClass('is-selected')
+            .removeClass('is-range-from')
+            .removeClass('is-range-to')
+
+          calendarState.rangeFrom = ""
+          calendarState.rangeTo = ""
+
+          $('[js-paste-start-date]').html("START DATE").removeClass('is-ready');
+          $('[js-paste-end-date]').html("END DATE").removeClass('is-ready');
+          $('[js-calc-days]').html("")
+        }
+
+        // first & second date select operator
+        if ( calendarState.rangeFrom == "" ){
+          $('[js-paste-start-date]').html(dayStrFormated).addClass('is-ready');
+          collectData.orderStartDay = dayData
+          calendarState.rangeFrom = dayDate
+
+          $(this).addClass('is-selected').addClass('is-range-from');
+        } else if (calendarState.rangeTo == ""){
+          $('[js-paste-end-date]').html(dayStrFormated).addClass('is-ready');
+          collectData.orderEndDay = dayData
+          calendarState.rangeTo = dayDate
+
+          $(this).addClass('is-selected').addClass('is-range-to');
+        }
+
+        // calc difference
+        if ( calendarState.rangeFrom != "" && calendarState.rangeTo != "" ){
+          var timeDiff = Math.abs(calendarState.rangeTo.getTime() - calendarState.rangeFrom.getTime());
+          var calcDaysStr = Math.ceil(timeDiff / (1000 * 3600 * 24)) + " days";
+
+          $('[js-calc-days]').html(calcDaysStr);
+        }
+
+
       }
 
-    })
+      console.log(calendarState);
 
-    // if ( date[0] ){
-    //   var startDateStr = date[0].getDate() + " " + formatMonth(date[0].getMonth());
-    //
-    //   $('[js-paste-start-date]').html(startDateStr).addClass('is-ready');
-    //   collectData.orderStartDay = date[0].yyyymmdd()
-    // }
-    //
-    // if ( date[1] ){
-    //   var endDateStr = date[1].getDate() + " " + formatMonth(date[1].getMonth());;
-    //
-    //   $('[js-paste-end-date]').html(endDateStr).addClass('is-ready');
-    //   collectData.orderEndDay = date[1].yyyymmdd()
-    // }
-    //
-    // if ( date[0] && date[1] ){
-    //   var timeDiff = Math.abs(date[1].getTime() - date[0].getTime());
-    //   var calcDaysStr = Math.ceil(timeDiff / (1000 * 3600 * 24)) + " days";
-    //
-    //   $('[js-calc-days]').html(calcDaysStr);
-    // }
+    })
 
   }
 
@@ -190,14 +208,20 @@ $(document).ready(function(){
     var startDate = $('[js-paste-start-date].is-ready').html();
     var endDate = $('[js-paste-end-date].is-ready').html();
 
-    if ( startDate ){ $('[js-paste-date-summary] span:first-child').html(startDate) }
+    if ( startDate ){
+      $('[js-paste-date-summary] span:first-child').html(startDate);
+      if ( !endDate ){
+        $('[js-paste-date-summary] span:last-child').html(startDate)
+      }
+    }
 
     if ( endDate ){ $('[js-paste-date-summary] span:last-child').html(endDate) }
 
     if ( startDate || endDate ){
       $('[js-paste-date-summary]').closest('[js-action]').addClass('is-filled').removeClass('has-error');;
-      $(this).closest('.action').removeClass('is-active');
     }
+
+    $(this).closest('.action').removeClass('is-active');
   });
 
   // set who placeholder and close dialog
