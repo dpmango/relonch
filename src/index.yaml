@@ -1,8 +1,6 @@
 ProjectTitle: Relonch
 
 PageList:
-- file: order.html
-  ready: 100
 - file: bloger.html
   ready: 100
 - file: download.html

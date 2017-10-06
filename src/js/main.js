@@ -42,10 +42,22 @@ $(document).ready(function(){
     trendsetter: ""
   }
 
-  // hide blogger screen
+  // hide blogger screen & controll scroll
   $('[js-goTo-order]').on('click', function(){
-    $('.order-bloger').addClass('is-removed')
+    // $('.order-intro').addClass('is-removed');
+    setSection();
   });
+
+  function setSection(){
+    $('.section-scroll').css({
+      'transform': 'translate3d(0,-'+_window.height()+'px,0)'
+    })
+  }
+  _window.on('resize', setSection);
+
+  $('.section-scroll').on('scroll', function(e){
+    e.preventDefault();
+  })
 
   // Blogger trendsetter
   if ( getUrlParameter('blogger') ){
@@ -65,7 +77,14 @@ $(document).ready(function(){
     if ( action && targetBlock ){
       self.on('click', function(e){
         targetBlock.addClass('is-active');
-      })
+
+        if ( action == "order-from" || action == "order-to" ){
+          var targetInput = targetBlock.find('input')
+          targetInput.focus().val('');
+          targetBlock.find('.destination-results__card').remove();
+          targetBlock.find('.destination-search').removeClass('is-filled')
+        }
+      });
     }
   })
 
@@ -95,6 +114,10 @@ $(document).ready(function(){
           $('.destination-results').append(appendedEl)
         })
       });
+
+      $(this).parent().addClass('is-filled');
+    } else {
+      $(this).parent().removeClass('is-filled')
     }
   });
 
@@ -116,6 +139,14 @@ $(document).ready(function(){
       collectData.orderTo = $(this).find('span:nth-child(1)').html() ;
     }
   });
+
+  // clear typed
+  $('.destination-search .ico-close').on('click', function(){
+    var parentEl = $(this).parent()
+    parentEl.find('input').val('');
+    $(this).closest('.action').find('.destination-results__card').remove();
+    parentEl.removeClass('is-filled')
+  })
 
   // Datepicker
 
@@ -308,37 +339,45 @@ $(document).ready(function(){
 
 
   // ORDER NAME FORM
+  var formPending = false;
   $('[js-validate-order-name]').on('submit', function(e){
     var input = $(this).find('input').val();
 
-    if ( input && input.length > 5 ){
-      // validate with instagramm api ?
-
-      // if all good -- show form and booking number
+    if ( input && input.length > 3 ){
       console.log(collectData)
 
-      $.ajax({
-        url: "https://aws-test.relonch.com/api/1.0/rent/inst",
-        type: 'POST',
-        data: {
-          start_day: collectData.orderStartDay, //yyyymmdd format
-          end_day: collectData.orderEndDay, //yyyymmdd format
-          name: input, // instagram nickname
-          trendsetter: collectData.trendsetter, //
-          from: collectData.orderFrom, // city
-          to: collectData.orderTo, // city
-          who: collectData.orderWho
-        },
-        dataType: 'json',
-      }).done(function(res) {
-        console.log('got responce from api', res)
-        $('.order-number').addClass('is-active');
-        // var orderNumber = Math.floor(1000 + Math.random() * 9000);
-        var orderNumber = res.result;
-        $('[js-paste-booking-number]').text(orderNumber);
-        $('[js-copy-clipboard]').attr('data-clipboard-text', orderNumber.toString());
+      // update orderToDate if empty - same date
+      if ( collectData.orderEndDay == "" ){
+        collectData.orderEndDay = collectData.orderStartDay
+      }
 
-      });
+      // prevent multiple submits
+      formPending = true
+      if ( !formPending ){
+        $.ajax({
+          url: "https://aws-test.relonch.com/api/1.0/rent/inst",
+          type: 'POST',
+          data: {
+            start_day: collectData.orderStartDay, //yyyymmdd format
+            end_day: collectData.orderEndDay, //yyyymmdd format
+            name: input, // instagram nickname
+            trendsetter: collectData.trendsetter, //
+            from: collectData.orderFrom, // city
+            to: collectData.orderTo, // city
+            who: collectData.orderWho
+          },
+          dataType: 'json',
+        }).done(function(res) {
+          console.log('got responce from api', res)
+          $('.order-number').addClass('is-active');
+          // var orderNumber = Math.floor(1000 + Math.random() * 9000);
+          var orderNumber = res.result;
+          $('[js-paste-booking-number]').text(orderNumber);
+          $('[js-copy-clipboard]').attr('data-clipboard-text', orderNumber.toString());
+
+          formPending = false
+        });
+      }
 
     } else {
       $(this).find('input').addClass('has-error')
@@ -351,7 +390,7 @@ $(document).ready(function(){
   var clipboard = new Clipboard('[js-copy-clipboard]');
 
   clipboard.on('success', function(e) {
-    alert('Order number Copied: ' + e.text + '. Please refer back to instagramm');
+    alert('Order number copied');
 
     // console.info('Action:', e.action);
     // console.info('Text:', e.text);

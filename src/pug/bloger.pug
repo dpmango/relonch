@@ -5,64 +5,64 @@ extends shared/_layout
 block header
 
 block content
-  .order
-    .order-bloger
-      .order-bloger__wrapper
-        .order-bloger__bg
+  .section-scroll
+    .order-intro
+      .order-intro__wrapper
+        .order-intro__bg
           img(src='img/orderBlogerBg.jpg')          
-        .order-bloger__content
-          .order-bloger__logo
+        .order-intro__content
+          .order-intro__logo
             i.icon.icon-logo
-          .order-bloger__title Relonch <span>x</span>
-          .order-bloger__name(js-paste-trendsetter) HEY INSTAGRAMMER !
-          .order-bloger__description Take Remarkable Photos on your upcoming trip
-          .order-bloger__cta
+          .order-intro__title Relonch <span>x</span>
+          .order-intro__name(js-paste-trendsetter) HEY INSTAGRAMMER !
+          .order-intro__description Take Remarkable Photos on your upcoming trip
+          .order-intro__cta
             .btn.btn--white(js-goTo-order) Grab a camera for free
             
-        
-    .container.container--flex
-      .order__title Magic сamera <br> for magical trips
-      .order__form
-        .order__row
-          .order__col
-            .order__input(js-action data-action="order-from")
-              .order__input-placeholder
-                +icon('ico-planeFrom')
-                span FROM
-              .order__input-data
-                span 
-                span 
-                
-          .order__col
-            .order__input(js-action data-action="order-to")
-              .order__input-placeholder
-                +icon('ico-planeTo')
-                span TO
-              .order__input-data
-                span 
-                span 
-        .order__row
-          .order__col
-            .order__input.order__input--small(js-action data-action="order-date")
-              .order__input-placeholder
-                +icon('ico-date')
-                span DATE
-              .order__input-data(js-paste-date-summary)
-                span
-                | -
-                span
-                
-          .order__col
-            .order__input.order__input--small(js-action data-action="order-who")
-              .order__input-placeholder
-                +icon('ico-who')
-                span WHO
-              .order__input-data
-                span 
-                
-        .order__cta
-          button(type='submit' js-process-booking).btn.btn--cta.btn--block Book a camera
-  
-  include components/_actions
+    .order        
+      .container.container--flex
+        .order__title Magic сamera <br> for magical trips
+        .order__form
+          .order__row
+            .order__col
+              .order__input(js-action data-action="order-from")
+                .order__input-placeholder
+                  +icon('ico-planeFrom')
+                  span FROM
+                .order__input-data
+                  span 
+                  span 
+                  
+            .order__col
+              .order__input(js-action data-action="order-to")
+                .order__input-placeholder
+                  +icon('ico-planeTo')
+                  span TO
+                .order__input-data
+                  span 
+                  span 
+          .order__row
+            .order__col
+              .order__input.order__input--small(js-action data-action="order-date")
+                .order__input-placeholder
+                  +icon('ico-date')
+                  span DATE
+                .order__input-data(js-paste-date-summary)
+                  span
+                  | -
+                  span
+                  
+            .order__col
+              .order__input.order__input--small(js-action data-action="order-who")
+                .order__input-placeholder
+                  +icon('ico-who')
+                  span WHO
+                .order__input-data
+                  span 
+                  
+          .order__cta
+            button(type='submit' js-process-booking).btn.btn--cta.btn--block Book a camera
+    
+      include components/_actions
 
       

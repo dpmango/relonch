@@ -1,4 +1,10 @@
+.section-scroll
+  height: 100vh
+  overflow: visible
+  transition: all .3s ease-out
+
 .order
+  min-height: 100vh
   flex: 1 0 auto
   display: flex
   flex-direction: column
@@ -6,7 +12,7 @@
   background: url('../img/orderBg.png') no-repeat center
   background-size: cover
   color: white
-  padding: 80px 0 30px 0
+  padding: 80px 0 30px
   &__title
     text-align: center
     font-size: 30px
@@ -104,11 +110,11 @@
         opacity: 1
         pointer-events: all
     &:hover
-      transform: translate3d(0,-3px,0) scale(1.03)
+      transform: translate3d(0,-3px,0)
     // &--small:hover
     //   transform: translate3d(0,5px,0)
     &.has-error
-      box-shadow: inset 0px 0 8px tomato
+      box-shadow: inset 0px 0 10px red
       // animation-name: shake
       // animation-duration: .4s
       // animation-timing-function: ease
@@ -116,16 +122,15 @@
   &__cta
     margin-top: 3px
 
-.order-bloger
-  position: fixed 0
-  z-index: 100
+.order-intro
+  height: 100vh
   display: flex
   flex-direction: column
   transition: transform $transitionSpeed $ease, opacity .2s .3s ease
-  &.is-removed
-    opacity: 0
-    pointer-events: none
-    transform: translate3d(0,-100%,0)
+  // &.is-removed
+  //   opacity: 0
+  //   pointer-events: none
+  //   transform: translate3d(0,-100%,0)
   &__wrapper
     flex: 1 1 auto
     position: relative
@@ -190,6 +195,7 @@
 
 // actions
 .action
+  color: $fontColor
   position: absolute 0
   display: flex
   flex-direction: column
@@ -233,6 +239,7 @@
     pointer-events: all
 
 .destination-search
+  position: relative
   margin-top: 45px
   input
     display: block
@@ -241,9 +248,28 @@
     border-bottom: 1px solid #E6E6E6
     font-size: 30px
     padding: 15px
-    text-transform: uppercase
+    text-transform: capitalize
     &::placeholder
       color: $colorMute
+  .ico-close
+    position: absolute
+    top: 50%
+    z-index: 2
+    right: 15px
+    transform: translateY(-50%)
+    color: #999
+    font-size: 12px
+    cursor: pointer
+    pointer-events: none
+    opacity: 0
+    transform: translate3d(10px,0,0)
+    transition: all $transitionSpeed $ease
+  &.is-filled
+    .ico-close
+      opacity: 1
+      transform: translate3d(0,0,0)
+      pointer-events: all
+
 
 .destination-results
   padding: 30px 15px 0 15px
@@ -336,9 +362,10 @@
 
 // SCREENS WHICH COMES AFTER MAIN FORM
 .order-name
+  color: $fontColor
   display: flex
   flex-direction: column
-  position: fixed 0
+  position: absolute 0
   background: #182230
   z-index: 50
   transition: all $transitionSpeed $ease
@@ -381,6 +408,7 @@
       font-size: 14px
       color: $fontColor
       padding: 12px 15px
+      margin-bottom: 6px
       transition: all $transitionSpeed $ease
       &::placeholder
         color: $colorMute
@@ -393,9 +421,10 @@
 
 
 .order-number
+  color: $fontColor
   display: flex
   flex-direction: column
-  position: fixed 0
+  position: absolute 0
   background: #182230
   z-index: 60
   transition: all $transitionSpeed $ease

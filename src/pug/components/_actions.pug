@@ -5,26 +5,27 @@
       +icon('ico-close')
     .destination-search
       input(placeholder="From where?" js-search-autocompleate)
+      +icon('ico-close')
     .destination-results
       .destination-results__head Popular location
-      .destination-results__card(data-location='sfo')
-        span San Francisco
-        span SFO
-      .destination-results__card(data-location='lax')
-        span Los Angeles
-        span LAX  
-      .destination-results__card(data-location='jfk')
-        span New-York
-        span JFK  
-      .destination-results__card(data-location='atl')
-        span Atlanta
-        span ATL  
-      .destination-results__card(data-location='ord')
-        span Chicago
-        span ORD  
-      .destination-results__card(data-location='den')
-        span Denver
-        span DEN  
+      //- .destination-results__card(data-location='sfo')
+      //-   span San Francisco
+      //-   span SFO
+      //- .destination-results__card(data-location='lax')
+      //-   span Los Angeles
+      //-   span LAX  
+      //- .destination-results__card(data-location='jfk')
+      //-   span New-York
+      //-   span JFK  
+      //- .destination-results__card(data-location='atl')
+      //-   span Atlanta
+      //-   span ATL  
+      //- .destination-results__card(data-location='ord')
+      //-   span Chicago
+      //-   span ORD  
+      //- .destination-results__card(data-location='den')
+      //-   span Denver
+      //-   span DEN  
         
 // ORDER TO
 .action(data-action="order-to")
@@ -33,26 +34,27 @@
       +icon('ico-close')
     .destination-search
       input(placeholder="where to?" js-search-autocompleate)
+      +icon('ico-close')
     .destination-results
       .destination-results__head Popular location
-      .destination-results__card(data-location='sfo')
-        span San Francisco
-        span SFO
-      .destination-results__card(data-location='lax')
-        span Los Angeles
-        span LAX  
-      .destination-results__card(data-location='jfk')
-        span New-York
-        span JFK  
-      .destination-results__card(data-location='atl')
-        span Atlanta
-        span ATL  
-      .destination-results__card(data-location='ord')
-        span Chicago
-        span ORD  
-      .destination-results__card(data-location='den')
-        span Denver
-        span DEN  
+      //- .destination-results__card(data-location='sfo')
+      //-   span San Francisco
+      //-   span SFO
+      //- .destination-results__card(data-location='lax')
+      //-   span Los Angeles
+      //-   span LAX  
+      //- .destination-results__card(data-location='jfk')
+      //-   span New-York
+      //-   span JFK  
+      //- .destination-results__card(data-location='atl')
+      //-   span Atlanta
+      //-   span ATL  
+      //- .destination-results__card(data-location='ord')
+      //-   span Chicago
+      //-   span ORD  
+      //- .destination-results__card(data-location='den')
+      //-   span Denver
+      //-   span DEN  
         
 // ORDER TO
 .action(data-action="order-date")
@@ -292,10 +294,11 @@
 // GET ID
 .order-name
   .order-name__wrapper
-    .order-name__title Enter your Instagram nickname
-    .order-name__subtitle that we can use to contact you and clarify details
+    .order-name__title Enter your Instagram nickname and phone number
+    .order-name__subtitle so that we can contact you to clarify details. 
     form(action="" js-validate-order-name).order-name__form
       input(type="text" placeholder="Your instagram nickname")
+      input(type="tel" placeholder="Your phone number")
       button(type="submit").btn.btn--insta.btn--block finish Booking
       
 // GET ID
