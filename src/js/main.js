@@ -43,21 +43,38 @@ $(document).ready(function(){
   }
 
   // hide blogger screen & controll scroll
+  $('.section-scroll').slick({
+    autoplay: false,
+    dots: false,
+    arrows: false,
+    infinite: false,
+    speed: 600,
+    slidesToShow: 1,
+    accessibility: false,
+    //adaptiveHeight: true,
+    draggable: false,
+    swipe: false,
+    swipeToSlide: false,
+    touchMove: false,
+    vertical: true
+  })
+
   $('[js-goTo-order]').on('click', function(){
     // $('.order-intro').addClass('is-removed');
-    setSection();
+    // setSection();
+    $('.section-scroll').slick("slickGoTo", 1)
   });
 
-  function setSection(){
-    $('.section-scroll').css({
-      'transform': 'translate3d(0,-'+_window.height()+'px,0)'
-    })
-  }
-  _window.on('resize', setSection);
-
-  $('.section-scroll').on('scroll', function(e){
-    e.preventDefault();
-  })
+  // function setSection(){
+  //   $('.section-scroll').css({
+  //     'transform': 'translate3d(0,-'+_window.height()+'px,0)'
+  //   })
+  // }
+  // _window.on('resize', setSection);
+  //
+  // $('.section-scroll').on('scroll', function(e){
+  //   e.preventDefault();
+  // })
 
   // Blogger trendsetter
   if ( getUrlParameter('blogger') ){
