@@ -28,6 +28,24 @@ $(document).ready(function(){
     $('.mobile-navi').removeClass('is-active');
   });
 
+
+  // Viewport units buggyfill
+
+  window.viewportUnitsBuggyfill.init({
+    refreshDebounceWait: 250,
+    force: true,
+    hacks: window.viewportUnitsBuggyfillHacks,
+    appendToBody: true
+  });
+
+  window.addEventListener('viewport-unit-buggyfill-init', function() {
+    console.log('getting lost in CSSOM');
+  });
+  window.addEventListener('viewport-unit-buggyfill-style', function() {
+    console.log('updated rules using viewport unit');
+  });
+
+
   //////////
   // ORDER + BLOGGER
   //////////
@@ -42,39 +60,45 @@ $(document).ready(function(){
     trendsetter: ""
   }
 
-  // hide blogger screen & controll scroll
-  $('.section-scroll').slick({
-    autoplay: false,
-    dots: false,
-    arrows: false,
-    infinite: false,
-    speed: 600,
-    slidesToShow: 1,
-    accessibility: false,
-    //adaptiveHeight: true,
-    draggable: false,
-    swipe: false,
-    swipeToSlide: false,
-    touchMove: false,
-    vertical: true
-  })
+
+  // default is intro
+  var showIntro = true;
+  setIntro();
 
   $('[js-goTo-order]').on('click', function(){
-    // $('.order-intro').addClass('is-removed');
-    // setSection();
-    $('.section-scroll').slick("slickGoTo", 1)
+    showIntro = false
+    setOrder();
+    setTimeout(clearAll, 1000);
   });
 
-  // function setSection(){
-  //   $('.section-scroll').css({
-  //     'transform': 'translate3d(0,-'+_window.height()+'px,0)'
-  //   })
-  // }
-  // _window.on('resize', setSection);
-  //
-  // $('.section-scroll').on('scroll', function(e){
-  //   e.preventDefault();
-  // })
+  function setIntro(){
+    // add when loaded
+    $('.order-intro').css({
+      'transform': 'translate3d(0,-'+0+'px,0)'
+    })
+    $('.order').css({
+      'transform': 'translate3d(0,'+_window.height()+'px,0)'
+    })
+  }
+
+  function setOrder(){
+    $('.order-intro').css({
+      'transform': 'translate3d(0,-'+_window.height()+'px,0)'
+    })
+    $('.order').css({
+      'transform': 'translate3d(0,-'+0+'px,0)'
+    })
+  }
+
+  function clearAll(){
+    $('.order-intro').remove();
+    $('.order').attr('style', '')
+  }
+  function resizeToggler(){
+    showIntro ? setIntro() : setOrder();
+  }
+
+  _window.on('resize', resizeToggler);
 
   // Blogger trendsetter
   if ( getUrlParameter('blogger') ){
@@ -117,19 +141,24 @@ $(document).ready(function(){
   // autocompleate
   $('[js-search-autocompleate]').on('keyup', function(e){
     var curVal = $(this).val();
-    searchUrl = "http://api.sandbox.amadeus.com/v1.2/airports/autocomplete?apikey=yaTbPeg2zvnWJiiQNU9eFlV3gSAPGXYo&term="+curVal+"";
+    searchUrl = "http://api.sandbox.amadeus.com/v1.2/airports/autocomplete?apikey=PGjVW0u5Yi3BMPbYnmT30cSzC766J9i0&term="+curVal+"";
     if ( curVal && curVal != "" ){
       $.ajax({
         url: searchUrl,
         type: 'GET',
         dataType: 'json',
       }).done(function(res) {
-        console.log('got responce from api', res)
         $('.destination-results__card').remove();
-        $.each(res, function(i, val){
-          var appendedEl = "<div class='destination-results__card' data-location="+val.value+"><span>"+val.label+"</span><span>"+val.value+"</span> </div>"
-          $('.destination-results').append(appendedEl)
-        })
+        $('.destination-results__no').remove();
+        if ( res.length > 0 ){
+          $.each(res, function(i, val){
+            var appendedEl = "<div class='destination-results__card' data-location="+val.value+"><span>"+val.label+"</span><span>"+val.value+"</span> </div>"
+            $('.destination-results').append(appendedEl)
+          })
+        } else {
+          var noResultsStr = "<div class=destination-results__no>No matching locations found</div>"
+          $('.destination-results').append(noResultsStr)
+        }
       });
 
       $(this).parent().addClass('is-filled');
@@ -358,16 +387,32 @@ $(document).ready(function(){
   // ORDER NAME FORM
   var formPending = false;
   $('[js-validate-order-name]').on('submit', function(e){
-    var input = $(this).find('input').val();
+    var name = $('#form_nickname');
+    var phone = $('#form_phone');
+    var nameValid, phoneValid;
 
-    if ( input && input.length > 3 ){
-      console.log(collectData)
+    if ( name.val() && name.val().length > 3 ){
+      name.removeClass('has-error')
+      nameValid = true
+    } else {
+      name.addClass('has-error');
+      nameValid = false
 
-      // update orderToDate if empty - same date
-      if ( collectData.orderEndDay == "" ){
-        collectData.orderEndDay = collectData.orderStartDay
-      }
+    }
+    if ( phone.val() && phone.val().length > 7 ){
+      phone.removeClass('has-error')
+      nameValid = true
+    } else {
+      phone.addClass('has-error');
+      phoneValid = false
+    }
 
+    // update orderToDate if empty - same date
+    if ( collectData.orderEndDay == "" ){
+      collectData.orderEndDay = collectData.orderStartDay
+    }
+
+    if ( nameValid && phoneValid){
       // prevent multiple submits
       formPending = true
       if ( !formPending ){
@@ -377,7 +422,8 @@ $(document).ready(function(){
           data: {
             start_day: collectData.orderStartDay, //yyyymmdd format
             end_day: collectData.orderEndDay, //yyyymmdd format
-            name: input, // instagram nickname
+            name: name.val(), // instagram nickname
+            phone: phone.val(), // phone number from form
             trendsetter: collectData.trendsetter, //
             from: collectData.orderFrom, // city
             to: collectData.orderTo, // city
@@ -385,7 +431,6 @@ $(document).ready(function(){
           },
           dataType: 'json',
         }).done(function(res) {
-          console.log('got responce from api', res)
           $('.order-number').addClass('is-active');
           // var orderNumber = Math.floor(1000 + Math.random() * 9000);
           var orderNumber = res.result;
@@ -395,9 +440,6 @@ $(document).ready(function(){
           formPending = false
         });
       }
-
-    } else {
-      $(this).find('input').addClass('has-error')
     }
 
     e.preventDefault();
@@ -408,11 +450,6 @@ $(document).ready(function(){
 
   clipboard.on('success', function(e) {
     alert('Order number copied');
-
-    // console.info('Action:', e.action);
-    // console.info('Text:', e.text);
-    // console.info('Trigger:', e.trigger);
-    // e.clearSelection();
   });
 
 
