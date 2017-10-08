@@ -32,7 +32,7 @@ $(document).ready(function(){
   // Viewport units buggyfill
 
   window.viewportUnitsBuggyfill.init({
-    refreshDebounceWait: 250,
+    refreshDebounceWait: 10,
     force: true,
     hacks: window.viewportUnitsBuggyfillHacks,
     appendToBody: true
@@ -401,7 +401,7 @@ $(document).ready(function(){
     }
     if ( phone.val() && phone.val().length > 7 ){
       phone.removeClass('has-error')
-      nameValid = true
+      phoneValid = true
     } else {
       phone.addClass('has-error');
       phoneValid = false
@@ -414,8 +414,8 @@ $(document).ready(function(){
 
     if ( nameValid && phoneValid){
       // prevent multiple submits
-      formPending = true
       if ( !formPending ){
+        formPending = true
         $.ajax({
           url: "https://aws-test.relonch.com/api/1.0/rent/inst",
           type: 'POST',
@@ -431,6 +431,7 @@ $(document).ready(function(){
           },
           dataType: 'json',
         }).done(function(res) {
+          console.log(res);
           $('.order-number').addClass('is-active');
           // var orderNumber = Math.floor(1000 + Math.random() * 9000);
           var orderNumber = res.result;
