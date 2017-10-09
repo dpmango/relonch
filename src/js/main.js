@@ -122,28 +122,32 @@ $(document).ready(function(){
 
   $('[js-close]').each(function(i,val){
     var self = $(val);
-
     self.on('click touchstart', function(e){
-      // fix for viewport bug with keyboard - timeout for close
-      if (
-        self.closest('.action').data('action') == "order-from" ||
-        self.closest('.action').data('action') == "order-to"
-      ){
-        self.parent().find('.destination-search input').focusout();
-        setTimeout(function(){
-          self.closest('.action').removeClass('is-active');
-        }, 700)
-      } else {
-        self.closest('.action').removeClass('is-active');
-      }
-    })
-
+      closeAction(self);
+    });
   })
+
+  function closeAction(self){
+
+    // fix for viewport bug with keyboard - timeout for close
+    if (
+      self.closest('.action').data('action') == "order-from" ||
+      self.closest('.action').data('action') == "order-to"
+    ){
+      self.parent().find('.destination-search input').focusout();
+      setTimeout(function(){
+        self.closest('.action').removeClass('is-active');
+      }, 700)
+    } else {
+      self.closest('.action').removeClass('is-active');
+    }
+
+  }
 
   // autocompleate
   $('[js-search-autocompleate]').on('keyup', function(e){
     var curVal = $(this).val();
-    searchUrl = "http://api.sandbox.amadeus.com/v1.2/airports/autocomplete?apikey=PGjVW0u5Yi3BMPbYnmT30cSzC766J9i0&term="+curVal+"";
+    searchUrl = "https://api.sandbox.amadeus.com/v1.2/airports/autocomplete?apikey=PGjVW0u5Yi3BMPbYnmT30cSzC766J9i0&term="+curVal+"";
     if ( curVal && curVal != "" ){
       $.ajax({
         url: searchUrl,
@@ -174,7 +178,8 @@ $(document).ready(function(){
     // var locationData = $(this).data('location');
     var closestAction = $(this).closest('.action');
     var linkedInput = $('.order__input[data-action='+closestAction.data('action')+']');
-    closestAction.removeClass('is-active');
+    // closestAction.removeClass('is-active');
+    closeAction( closestAction.find('[js-close]') )
 
     linkedInput.addClass('is-filled').removeClass('has-error');
     linkedInput.find('span:first-child').html( $(this).find('span:nth-child(2)').html() );
