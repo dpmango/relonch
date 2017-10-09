@@ -123,8 +123,19 @@ $(document).ready(function(){
   $('[js-close]').each(function(i,val){
     var self = $(val);
 
-    self.on('click', function(e){
-      self.closest('.action').removeClass('is-active');
+    self.on('click touchstart', function(e){
+      // fix for viewport bug with keyboard - timeout for close
+      if (
+        self.closest('.action').data('action') == "order-from" ||
+        self.closest('.action').data('action') == "order-to"
+      ){
+        self.parent().find('.destination-search input').focusout();
+        setTimeout(function(){
+          self.closest('.action').removeClass('is-active');
+        }, 700)
+      } else {
+        self.closest('.action').removeClass('is-active');
+      }
     })
 
   })
