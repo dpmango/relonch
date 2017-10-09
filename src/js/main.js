@@ -147,7 +147,7 @@ $(document).ready(function(){
   // autocompleate
   $('[js-search-autocompleate]').on('keyup', function(e){
     var curVal = $(this).val();
-    searchUrl = "https://api.sandbox.amadeus.com/v1.2/airports/autocomplete?apikey=PGjVW0u5Yi3BMPbYnmT30cSzC766J9i0&term="+curVal+"";
+    searchUrl = "http://api.sandbox.amadeus.com/v1.2/airports/autocomplete?apikey=PGjVW0u5Yi3BMPbYnmT30cSzC766J9i0&term="+curVal+"";
     if ( curVal && curVal != "" ){
       $.ajax({
         url: searchUrl,
