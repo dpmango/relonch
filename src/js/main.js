@@ -32,19 +32,10 @@ $(document).ready(function(){
   // Viewport units buggyfill
 
   window.viewportUnitsBuggyfill.init({
-    refreshDebounceWait: 10,
     force: true,
     hacks: window.viewportUnitsBuggyfillHacks,
     appendToBody: true
   });
-
-  window.addEventListener('viewport-unit-buggyfill-init', function() {
-    console.log('getting lost in CSSOM');
-  });
-  window.addEventListener('viewport-unit-buggyfill-style', function() {
-    console.log('updated rules using viewport unit');
-  });
-
 
   //////////
   // ORDER + BLOGGER
